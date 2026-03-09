@@ -34,18 +34,20 @@ pip install mysql-connector-python requests paramiko netmiko
 ## Step 4: Add Your Scripts
 You need to place your two main scripts inside the /home/jamie/lanman_worker/ folder.
 
-scanner.py - The 1-minute network discovery and health monitor.
+lanman.py - The 1-minute network discovery and health monitor.
 
-clean.py - The daily database log cleanup tool.
+lanman_clean.py - The daily database log cleanup tool.
+
 
 You can download these from your Git repository, or create them directly using:
 
 ## CODE:
-nano lanman_scanner.py
-# (Paste your code, save with CTRL+X, Y, ENTER)
+nano lanman.py
+see repo, download file, upload or copy and paste as you please...
 
 nano lanman_clean.py
-# (Paste your code, save with CTRL+X, Y, ENTER)
+see repo, download file, upload or copy and paste as you please...
+
                                 
 ## Step 5: Set the Alarm Clocks (Cron Jobs)
 Cron is the brain that tells your scripts exactly when to wake up. We must use the absolute path to your sandbox so Cron knows to use the isolated tools we just installed.
@@ -56,7 +58,7 @@ crontab -e
 Scroll to the very bottom of the file and paste these two exact lines. (Again, ensure /home/jamie/ matches your actual Linux user directory):
 
 # Run the scanner every 1 minute
-* * * * * /home/jamie/lanman_worker/venv/bin/python /home/jamie/lanman_worker/lanman_scanner.py >> /home/jamie/lanman_worker/scanner.log 2>&1
+* * * * * /home/jamie/lanman_worker/venv/bin/python /home/jamie/lanman_worker/lanman.py >> /home/jamie/lanman_worker/scanner.log 2>&1
 
 # Run the cleanup at 2:00 AM every day
 0 2 * * * /home/jamie/lanman_worker/venv/bin/python /home/jamie/lanman_worker/lanman_clean.py >> /home/jamie/lanman_worker/clean.log 2>&1
