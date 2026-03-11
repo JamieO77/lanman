@@ -2,6 +2,7 @@
 
 LANMAN is your central command station. Think of it as a highly secure vault combined with a smart viewing glass. It lets you see, edit, manage private files, and monitor network devices without ever downloading anything to your local computer.
 
+<img width="1967" height="1241" alt="image" src="https://github.com/user-attachments/assets/d73704f1-bce4-4911-b25e-b316c94de435" />
 
 
 ## 🚀 Core Capabilities
@@ -31,6 +32,32 @@ LANMAN is your central command station. Think of it as a highly secure vault com
 **5. Media Command Center**
 * *What it does:* Plays audio and video evidence securely.
 * *Example:* Click an MP4 video file, and it plays right in the browser with native volume and pause buttons.
+
+## 🚀 Portal Screenshots
+
+* Dashboard
+<img width="2288" height="1356" alt="image" src="https://github.com/user-attachments/assets/f7242af5-350a-423f-9066-502f948185cf" />
+
+* Network Map:
+<img width="2315" height="1360" alt="image" src="https://github.com/user-attachments/assets/b5c0fb2a-206d-43d5-8418-1f72ae7c3861" />
+
+* Network Analysis:
+<img width="1902" height="1343" alt="image" src="https://github.com/user-attachments/assets/e3f554fd-f48c-4323-9dac-4d2adc0e0db5" />
+
+* Network/Portal Logs:
+<img width="1802" height="1041" alt="image" src="https://github.com/user-attachments/assets/79d6508f-93cc-4732-a80a-fc29a4cce2fc" />
+
+* Network Overviews:
+<img width="1768" height="1027" alt="image" src="https://github.com/user-attachments/assets/e7908385-a98b-484a-8a1c-bc8dd68a9b64" />
+
+* Network Cameras:
+<img width="1947" height="647" alt="image" src="https://github.com/user-attachments/assets/94141bdc-2b0c-49f7-9542-5d7aef63aac9" />
+
+* Network Tools:
+<img width="210" height="1157" alt="image" src="https://github.com/user-attachments/assets/3c9833da-7998-4513-af63-7828cf568546" />
+
+* AND SO MUCH MORE!!!!
+  
 
 ## 🔧 Full System Explanation
 
