@@ -1,37 +1,36 @@
-# 📂 LANMAN: Cyber-Secure Credit & Data Portal
+🛰️ LANMAN: Infrastructure Command & Intelligence
+LANMAN is a centralized, high-security command station for network infrastructure and asset management. Built on a Senior-level Tech Stack (PHP 8.1+, MySQL 8, Scriptcase 9+), it acts as a secure "glass pane" for your entire network. It allows you to monitor, diagnose, and manage remote nodes—from IP cameras to Linux servers—without leaving your browser or downloading sensitive data to your local machine.
 
-LANMAN is your central command station. Think of it as a highly secure vault combined with a smart viewing glass. It lets you see, edit, manage private files, and monitor network devices without ever downloading anything to your local computer.
+🚀 Core Capabilities
+* *Unified Asset Intelligence: A high-performance MySQL 8/MariaDB backend acts as a "Single Source of Truth" for every hardware node, IP address, and credential on your network.
+* *Zero-Footprint Management: Perform deep-dive diagnostics (SSH, Port Scanning, PTZ Control) through a secure web window. No local tools or software installations are required.
+* *Real-Time Telemetry (Heartbeat): Automated Python and PHP workers perform continuous health checks, capturing latency and uptime data every minute to visualize network stability.
+* *Multi-Protocol Decoders: Built-in engines to handle diverse data streams, including ONVIF for cameras, SSH for servers, and RTSP/MJPEG for live video.
 
 <img width="1967" height="1241" alt="image" src="https://github.com/user-attachments/assets/d73704f1-bce4-4911-b25e-b316c94de435" />
 
 
-## 🚀 Core Capabilities
-* **Unified Data Intelligence:** Everything is stored safely in one giant, organized digital filing cabinet powered by a high-performance MySQL 8/MariaDB backend.
-* **Zero-Footprint Document Handling:** You look at files through a secure window. Nothing is ever saved to your local computer, keeping your data safe from local theft.
-* **Automated "Heartbeat" Saves:** Just like a video game auto-saving before a boss fight, LANMAN silently saves your work every 5 minutes so you never lose data.
-* **Multi-Engine Decoders:** It has built-in translators to instantly read almost any file type (spreadsheets, code, videos, Word documents).
+🛠️ Integrated Toolset
+1. Surveillance Command (Cam Viewer)
+* *What it does: Provides a low-latency window into MJPEG/RTSP streams with integrated PTZ (Pan-Tilt-Zoom) controls.
+* *Example: Use the directional overlay to move an ONVIF camera and view its telemetry stats (Uptime/Latency) on the same screen.
 
-## 🛠 Technical Feature List
+2. Network Diagnostic Suite
+* *What it does: A collection of hardware-level utilities including Port Scanners, Ping Tools, and Traceroute.
+* *Example: If a node goes offline, use the Port Scanner to see if services like HTTP (80) or RTSP (554) are still responding before leaving your desk.
 
-**1. Monaco IDE Engine (Code Editor)**
-* *What it does:* Gives you a professional code-typing screen.
-* *Example:* If you open an SQL database file, it numbers the lines and highlights the commands in different colors so it is easy to read.
+3. Remote Terminal (Web-SSH)
+* *What it does: A professional, browser-based console for direct Linux/Windows server administration.
+* *Example: Restart a service or update a config file on a remote server without needing a local SSH client like Putty.
 
-**2. Grid Intelligence (Spreadsheets)**
-* *What it does:* Turns raw data files (.csv, .xlsx) into high-contrast HTML5 tables.
-* *Example:* It takes a messy block of text and lines it up perfectly into neat rows and columns.
+4. Discovery Engine
+* *What it does: An automated "sniffer" that identifies new devices appearing on the network.
+* *Example: It scans a defined IP range, finds a new camera, and allows you to "Import" it into the Asset Manager with one click.
 
-**3. Document Processor (Word Files)**
-* *What it does:* Reads Microsoft Word files (.docx) securely on the server using Mammoth.js.
-* *Example:* It strips out hidden formatting and only shows you the safe text and headers on your screen.
+5. Secure Document & Media Engine
+* *What it does: Securely renders PDFs, Word docs, and Media logs using server-side processing (PDF.js / Mammoth.js).
+* *Example: Review a network topology PDF or a recorded security clip (.mp4) instantly within the portal’s sandbox.
 
-**4. Secure PDF Command**
-* *What it does:* A built-in PDF reader using PDF.js.
-* *Example:* You can zoom and scroll through a PDF inside the portal without needing Adobe Acrobat installed.
-
-**5. Media Command Center**
-* *What it does:* Plays audio and video evidence securely.
-* *Example:* Click an MP4 video file, and it plays right in the browser with native volume and pause buttons.
 
 ## 🚀 Portal Screenshots
 
@@ -72,3 +71,51 @@ LANMAN treats all data as top-secret.
 **3. Optimized User Experience (UX)**
 * *Toggle-View:* One button flips the screen from "Formatted View" (for reading) to "Edit Mode" (for modifying).
 * *Smart Sizing:* The portal looks at your monitor size (from small laptops to massive 4K screens) and perfectly centers the document so it is always easy to read.
+
+## 🔧 Portal & Script Capabilities/Tools
+1. DASHBOARDS & MONITORING (Core Views)
+  * dash_main: The primary system dashboard showing global health.
+  * dash_noc: Network Operations Center view for high-level monitoring.
+  * dash_assets: Overview dashboard specifically for hardware status.
+  * monitor_live: Real-time ping/status monitoring interface.
+  * monitor_logs: Historical archive of all network events and changes.
+
+2. ASSET MANAGEMENT (Inventory)
+  * grid_network_assets: The main searchable list of all devices.
+  * form_network_assets: The editor for adding/modifying device details (where we added the telemetry).
+  * form_asset_types: Categorization tool (e.g., Server, Camera, Switch).
+  * grid_asset_locations: Physical mapping of where hardware is installed.
+
+3. SURVEILLANCE & MEDIA (Camera Tools)
+  * app_cam_viewer: The single-camera inspection app we just optimized.
+  * grid_cam_multi: A "Matrix" view for watching multiple feeds at once.
+  * form_cam_config: Specific settings for RTSP/MJPEG paths and ports.
+  * app_nvr_bridge: Integration tool for connecting to external recording storage.
+
+4. DIAGNOSTICS & TERMINAL (Remote Tools)
+  * app_terminal_ssh: Web-based SSH console for remote Linux management.
+  * app_port_scanner: Internal utility to check for open service ports.
+  * app_ping_tool: Manual diagnostic tool for testing specific node latency.
+  * app_wol_trigger: Wake-on-LAN utility for powering on remote machines.
+  * app_traceroute: Path analysis tool to find network bottlenecks.
+
+5. AUTOMATION & SCANNING (Discovery)
+  * proc_network_discovery: The background engine that finds new IP addresses.
+  * grid_discovery_results: Review list for newly found "Unknown" devices.
+  * form_discovery_rules: Settings for IP ranges and scan frequency.
+
+6. LOGS & ANALYTICS (Data)
+  * grid_network_log: Detailed raw data view of every ping and check.
+  * chart_uptime_stats: Visual reports on long-term availability.
+  * chart_latency_trends: Analytics for network performance over time.
+  * chart_telemetry: The dedicated blank app we built for the inline form chart.
+
+7. SYSTEM & SECURITY (Admin)
+  * form_settings: Global system configuration and API keys.
+  * grid_sec_users: User management for platform access.
+  * form_sec_groups: Permission and role-based access control.
+  * app_login: The secure entry point for the platform.
+  * grid_audit_trail: Complete history of who accessed what and when.
+
+
+
