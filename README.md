@@ -1,4 +1,5 @@
 🛰️ LANMAN: Infrastructure Command & Intelligence
+
 LANMAN is a centralized, high-security command station for network infrastructure and asset management. Built on a Senior-level Tech Stack (PHP 8.1+, MySQL 8, Scriptcase 9+), it acts as a secure "glass pane" for your entire network. It allows you to monitor, diagnose, and manage remote nodes—from IP cameras to Linux servers—without leaving your browser or downloading sensitive data to your local machine.
 
 🚀 Core Capabilities
