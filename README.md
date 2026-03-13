@@ -57,20 +57,20 @@ LANMAN is a centralized, high-security command station for network infrastructur
 
 * AND SO MUCH MORE!!!!
   
+## 🔧 Full System Explanation: Lanman Network Discovery Platform
 
-## 🔧 Full System Explanation
+**1. Autonomous Network Reconnaissance (Backend Engine)**
+Lanman operates a headless, automated Python discovery engine that interfaces directly with your physical network layer to maintain an accurate inventory of connected assets.
+* *Active Scanning Protocol:* Utilizing `scapy` and `python-nmap`, the `scan.py` daemon continuously broadcasts raw ARP and ICMP packets across the subnet. This allows it to identify active hosts, MAC addresses, and hardware vendors at the data-link layer, bypassing standard OS-level firewall restrictions that block standard ping requests.
+* *State Management & Sanitization:* The automated `cleanup.py` script acts as a localized garbage collector. It routinely scans the MySQL database and purges stale device records if a host fails to respond to network sweeps over a predefined chronological threshold, ensuring the platform strictly reflects the real-time network topology.
 
-**1. The Universal Cyber Viewer**
-Normally, when you click a file on the internet, it downloads to your Downloads folder. LANMAN stops this. It fetches the file on the server, figures out what type it is, and uses the right engine to paint a picture of it on your screen.
+**2. Centralized Asset Database (Storage Layer)**
+All discovered network telemetry is strictly normalized and routed into a dedicated MySQL 8 relational database (`lanman_db`). This layer maintains historical MAC-to-IP mappings, device metadata, and network uptime statistics utilizing best-practice lowercase and underscore schema naming conventions. It acts as the single source of truth for the entire platform.
 
-**2. Security & Redundancy**
-LANMAN treats all data as top-secret.
-* *The Backup Protocol:* Before you change a file, LANMAN makes a safe copy, stamps it with the exact time, and puts it in a secure `/bkp/` folder. If you make a mistake, you can instantly go back.
-* *Integrity Checks:* Before opening a file, the system knocks on the door to see if the file is actually there. If it is missing, you get a clear red alert instead of a broken webpage.
-
-**3. Optimized User Experience (UX)**
-* *Toggle-View:* One button flips the screen from "Formatted View" (for reading) to "Edit Mode" (for modifying).
-* *Smart Sizing:* The portal looks at your monitor size (from small laptops to massive 4K screens) and perfectly centers the document so it is always easy to read.
+**3. Administration & Visualization Console (Frontend UI)**
+The user-facing platform is a highly optimized, compiled Scriptcase PHP 8.2 web application.
+* *Real-Time Asset Dashboard:* Translates raw database metrics into an interactive graphical interface. It allows network administrators to monitor subnet saturation, identify unauthorized rogue devices connecting to the LAN, and track dynamic DHCP IP allocations.
+* *Device Management:* Provides an interactive grid architecture to manually tag known devices with physical locations, assign ownership, designate static IP reservations, and monitor the online/offline status of critical infrastructure nodes.
 
 ## 🔧 Portal & Script Capabilities/Tools
 1. DASHBOARDS & MONITORING (Core Views)
