@@ -12,6 +12,7 @@ LANMAN is a centralized, high-security command station designed for comprehensiv
 * 
 <img width="1967" height="1241" alt="image" src="https://github.com/user-attachments/assets/d73704f1-bce4-4911-b25e-b316c94de435" />
 
+
 ## 🛠️ Integrated Diagnostic & Management Toolset
 
 ### 1. Advanced Network Diagnostic Suite
@@ -42,7 +43,8 @@ LANMAN is a centralized, high-security command station designed for comprehensiv
 * **Function:** A reactive notification subsystem that triggers outbound webhooks (e.g., Telegram, Discord, or internal ticketing systems) when the Python health checker detects critical infrastructure state changes.
 * **Operational Example:** If a core network switch drops offline and fails three consecutive ICMP heartbeat checks, the engine immediately dispatches a high-priority push notification containing the node's IP, physical location tag, and downtime duration directly to the engineering team.
 
-## AND SO MUCH MORE....
+# AND SO MUCH MORE....
+
 
 ## 🚀 Portal Screenshots
 
@@ -57,7 +59,8 @@ This is the primary operations hub, providing a real-time, single-pane-of-glass 
 * **Event & Bottleneck Tracking:** A live data grid logging precise network events (such as latency spikes and manual daemon restarts) alongside a dedicated panel for immediate bottleneck alerts.
 * **Service Integrity Matrix:** Continuous polling of critical external web services and internal daemons, instantly highlighting offline environments.
 * **Quick-Action Integration:** Rapid execution toggles for network discovery protocols, automated cleanup routines, and webhook notification testing (Telegram, Slack, Email).
-  
+
+
 ### 🗺️ Live Network Topology Map
 <img width="2315" height="1360" alt="image" src="https://github.com/user-attachments/assets/b5c0fb2a-206d-43d5-8418-1f72ae7c3861" />
 
@@ -68,7 +71,8 @@ This module provides an interactive, visual representation of the physical and l
 * **Rogue Device Identification:** Visually isolates unidentified or untagged hardware (highlighted with purple markers), allowing administrators to quickly spot and investigate unauthorized MAC addresses on the subnet.
 * **Interactive Asset Sidebar:** A collapsible control panel categorizing Core Assets, Active Services, and Unidentified Nodes. It includes direct action buttons next to each IP for immediate administration, wake-on-LAN execution, or deeper node inspection.
 * **Canvas Controls & Search:** Integrated pan and zoom controls alongside a global node-search bar to rapidly locate specific hardware within dense or complex subnet environments.
-  
+
+
 ### 📈 Network Analysis & Live Telemetry
 <img width="1902" height="1343" alt="image" src="https://github.com/user-attachments/assets/e3f554fd-f48c-4323-9dac-4d2adc0e0db5" />
 
@@ -80,7 +84,8 @@ This module delivers granular, real-time analytics of network performance, devic
 * **Event Logging & Bottleneck Identification:** Dedicated data matrices capturing critical latency events, service state transitions (Online/Offline), and sustained node performance degradation over time.
 * **Infrastructure Density Visualization:** A categorized bar chart and ecosystem matrix breaking down the hardware composition of the network (e.g., servers, switches, cameras, IoT devices) to assist in capacity planning and subnet segregation.
 * **Targeted Hardware Probing:** Isolated latency trackers for critical infrastructure components, such as the primary gateway and core switches, alongside a custom IP targeting tool for ad-hoc node diagnostics.
-  
+
+
 ### 🗄️ Log Matrix & Historical Telemetry
 <img width="1802" height="1041" alt="image" src="https://github.com/user-attachments/assets/79d6508f-93cc-4732-a80a-fc29a4cce2fc" />
 
@@ -92,7 +97,8 @@ This module serves as the centralized logging repository, aggregating system eve
 * **Outages & Spikes Tracking:** An isolated event stream dedicated strictly to critical failures. It logs the exact timestamps when nodes drop offline (0ms response) or exceed defined latency thresholds (e.g., >100ms), providing a precise timeline of infrastructure degradation.
 * **Bandwidth Audits:** A dedicated historical ledger for automated or manual speed test executions, tracking long-term ISP performance and throughput consistency.
 * **Log State Management:** Integrated controls to force-pull the latest database telemetry or purge the current UI view to isolate specific troubleshooting timeframes.
-  
+
+
 ### 👁️ Net Vision Pro (Asset Matrix)* Network Overviews:
 <img width="1768" height="1027" alt="image" src="https://github.com/user-attachments/assets/e7908385-a98b-484a-8a1c-bc8dd68a9b64" />
 
@@ -103,7 +109,8 @@ This module serves as a highly dense, dynamic monitoring matrix, delivering an a
 * **Dynamic Visibility Filtering:** A comprehensive right-hand control panel utilizing boolean toggles. This allows administrators to instantly isolate specific hardware categories (e.g., Firewalls, Access Points, IoT Devices) or individual nodes, significantly reducing visual noise during targeted troubleshooting.
 * **Multi-Modal UI Layouts:** Top-level navigation toggles enabling rapid pivoting of the data presentation between standard Lists, categorized Groups, the active Matrix view, and a Neural logical layout.
 * **Universal Asset Search:** A rapid-filtering search bar integrated directly into the header, allowing for instant location of specific hardware by hostname or IP address across massive, multi-subnet deployments.
-  
+
+
 ### 📹 Camera Command (Surveillance Grid)
 <img width="1947" height="647" alt="image" src="https://github.com/user-attachments/assets/94141bdc-2b0c-49f7-9542-5d7aef63aac9" />
 
@@ -115,11 +122,35 @@ This module acts like a universal remote control for all your security cameras. 
 * **Connection Speed (Latency):** Every camera shows a millisecond (ms) number so you know if the network connection is healthy. *Example: The Tapo camera shows 98ms, meaning it has a stable, fast connection to the router.*
 * **Auto-Cycle:** A hands-free mode that automatically switches the screen between different cameras, exactly like a security guard watching a rotating monitor.
   
-* Network Tools:
+### 🧰 Integrated Utility Toolkit (Tools Menu)
 <img width="210" height="1157" alt="image" src="https://github.com/user-attachments/assets/3c9833da-7998-4513-af63-7828cf568546" />
 
-* AND SO MUCH MORE!!!!
+This menu acts as your digital Swiss Army knife. It contains specialized mini-applications for writing code, testing network connections, and managing remote servers without ever leaving the dashboard.
+
+**Core Command Nodes**
+* **Docker / Linux / Windows Nexus:** Built-in dictionaries of the most important computer commands. *Example: Looking up the exact phrase needed to restart a server or find a hidden file without having to search the internet.*
+* **LLM Nexus:** A comparison guide and instruction manual for different artificial intelligence models. *Example: Reading about which AI is smartest for coding, and copying the exact command to download and run it securely on your own server.*
+
+**Dev (Developer Utilities)**
+* **Base Plate Gen:** Automatically builds starter code templates so you do not have to type from scratch.
+* **Base 64 Transcoder:** Translates normal text into scrambled computer code and back again. *Example: Hiding a secret key in a format that only machines can read.*
+* **Chroma Sync:** A tool to perfectly match and pick visual colors for web design.
+* **Domain Recon & URL Codec:** Breaks down long web links to see exactly where they lead and who owns them.
+* **Regex Architect:** A builder that helps you write precise search patterns to find specific errors hidden in massive log files.
+* **SQL Architect & Insert Factory:** Generates the exact database commands required to save, edit, or read information in your MySQL tables.
+
+**Network (Diagnostic Radar)**
+* **Recon Node & LAN Scanner:** Acts like a submarine radar, sending out signals to find every single device plugged into your building.
+* **Docker Composer:** A builder for assembling and launching your container stacks.
+* **DNS Propagator:** Checks if a newly purchased website name has updated across the global internet yet.
+* **Security Inspector:** Scans a computer to see if it left any digital doors (ports) unlocked.
+* **Latency Probe & Service Probe:** Tests exactly how fast a device replies to a knock on its door. *Example: Checking if the office printer is awake and responding.*
+* **IPv4 Subnet Calc:** A network calculator that helps you divide a massive network into smaller, secure pieces.
+* **Infra Mapper & Identify:** Draws the physical connections between your routers and switches to show how data travels.
   
+* AND SO MUCH MORE!!!!
+
+
 ## 🔧 Full System Explanation: Lanman Network Discovery Platform
 
 **1. Autonomous Network Reconnaissance (Backend Engine)**
