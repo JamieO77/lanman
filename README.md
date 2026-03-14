@@ -46,9 +46,18 @@ LANMAN is a centralized, high-security command station designed for comprehensiv
 
 ## 🚀 Portal Screenshots
 
-* Dashboard
+### 🖥️ Network Command Dashboard (LanMan v3)
 <img width="2288" height="1356" alt="image" src="https://github.com/user-attachments/assets/f7242af5-350a-423f-9066-502f948185cf" />
 
+This is the primary operations hub, providing a real-time, single-pane-of-glass overview of your entire infrastructure's health and telemetry. 
+
+**Key dashboard components include:**
+* **Live Telemetry:** Real-time bandwidth gauges (Download/Upload) and continuous external DNS latency tracking against critical endpoints (e.g., 8.8.8.8).
+* **Asset Health Visualization:** Visual charts detailing global network availability (Online/Offline ratios) and isolating the slowest responding hardware assets on the subnet.
+* **Event & Bottleneck Tracking:** A live data grid logging precise network events (such as latency spikes and manual daemon restarts) alongside a dedicated panel for immediate bottleneck alerts.
+* **Service Integrity Matrix:** Continuous polling of critical external web services and internal daemons, instantly highlighting offline environments.
+* **Quick-Action Integration:** Rapid execution toggles for network discovery protocols, automated cleanup routines, and webhook notification testing (Telegram, Slack, Email).
+  
 * Network Map:
 <img width="2315" height="1360" alt="image" src="https://github.com/user-attachments/assets/b5c0fb2a-206d-43d5-8418-1f72ae7c3861" />
 
