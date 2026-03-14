@@ -9,7 +9,7 @@ LANMAN is a centralized, high-security command station designed for comprehensiv
 * **Zero-Footprint Administration:** Execute deep-dive network diagnostics directly through the web interface. Capabilities include an embedded SSH terminal for secure server administration, raw TCP/UDP port scanning, and active service enumeration without deploying local software agents.
 * **Surveillance & Media Integration:** Natively decodes and manages diverse multimedia streams. Features built-in ONVIF protocol support for automated IP camera discovery, active web-based PTZ (Pan-Tilt-Zoom) mechanical control, and localized RTSP/MJPEG video stream proxying.
 * **Real-Time Telemetry & Heartbeat:** Automated Python and PHP workers execute continuous ICMP health checks across all registered infrastructure nodes. The platform captures granular latency metrics and uptime persistence, allowing administrators to immediately identify network degradation or hardware failures.
-* 
+
 <img width="1967" height="1241" alt="image" src="https://github.com/user-attachments/assets/d73704f1-bce4-4911-b25e-b316c94de435" />
 
 
