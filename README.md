@@ -1,36 +1,48 @@
-🛰️ LANMAN: Infrastructure Command & Intelligence
+🛰️ LanMan V.3: Infrastructure Command & Intelligence
 
-LANMAN is a centralized, high-security command station for network infrastructure and asset management. Built on a Senior-level Tech Stack (PHP 8.1+, MySQL 8, Scriptcase 9+), it acts as a secure "glass pane" for your entire network. It allows you to monitor, diagnose, and manage remote nodes—from IP cameras to Linux servers—without leaving your browser or downloading sensitive data to your local machine.
+LANMAN is a centralized, high-security command station designed for comprehensive network infrastructure and asset management. Engineered on a highly optimized web stack (PHP 8.2, MySQL 8.0, Scriptcase 9+), it functions as a secure, single-pane-of-glass interface for your entire local area network. It empowers administrators to monitor, diagnose, and actively manage remote nodes—ranging from IP surveillance cameras to headless Linux servers—directly from the browser, entirely eliminating the need for localized management clients or VPN tunneling. LanMan is a centralized, high-security command station for network infrastructure and asset management.
 
-🚀 Core Capabilities
-* *Unified Asset Intelligence: A high-performance MySQL 8/MariaDB backend acts as a "Single Source of Truth" for every hardware node, IP address, and credential on your network.
-* *Zero-Footprint Management: Perform deep-dive diagnostics (SSH, Port Scanning, PTZ Control) through a secure web window. No local tools or software installations are required.
-* *Real-Time Telemetry (Heartbeat): Automated Python and PHP workers perform continuous health checks, capturing latency and uptime data every minute to visualize network stability.
-* *Multi-Protocol Decoders: Built-in engines to handle diverse data streams, including ONVIF for cameras, SSH for servers, and RTSP/MJPEG for live video.
+### 🚀 Core Capabilities
 
+* **Autonomous Network Reconnaissance:** Operates a headless Python 3.11 discovery engine (`scan.py` and `cleanup.py`) utilizing raw ARP and ICMP sockets to continuously map the physical data-link layer. It automatically detects rogue devices, tracks dynamic DHCP allocations, and dynamically purges stale host records.
+* **Unified Asset Intelligence:** A high-performance MySQL 8 backend serves as the immutable "Single Source of Truth." It securely warehouses hardware MAC addresses, IP allocation histories, vendor metadata, and encrypted device credentials utilizing strict relational database structures.
+* **Zero-Footprint Administration:** Execute deep-dive network diagnostics directly through the web interface. Capabilities include an embedded SSH terminal for secure server administration, raw TCP/UDP port scanning, and active service enumeration without deploying local software agents.
+* **Surveillance & Media Integration:** Natively decodes and manages diverse multimedia streams. Features built-in ONVIF protocol support for automated IP camera discovery, active web-based PTZ (Pan-Tilt-Zoom) mechanical control, and localized RTSP/MJPEG video stream proxying.
+* **Real-Time Telemetry & Heartbeat:** Automated Python and PHP workers execute continuous ICMP health checks across all registered infrastructure nodes. The platform captures granular latency metrics and uptime persistence, allowing administrators to immediately identify network degradation or hardware failures.
+* 
 <img width="1967" height="1241" alt="image" src="https://github.com/user-attachments/assets/d73704f1-bce4-4911-b25e-b316c94de435" />
 
-🛠️ Integrated Toolset
-1. Surveillance Command (Cam Viewer)
-* *What it does: Provides a low-latency window into MJPEG/RTSP streams with integrated PTZ (Pan-Tilt-Zoom) controls.
-* *Example: Use the directional overlay to move an ONVIF camera and view its telemetry stats (Uptime/Latency) on the same screen.
+## 🛠️ Integrated Diagnostic & Management Toolset
 
-2. Network Diagnostic Suite
-* *What it does: A collection of hardware-level utilities including Port Scanners, Ping Tools, and Traceroute.
-* *Example: If a node goes offline, use the Port Scanner to see if services like HTTP (80) or RTSP (554) are still responding before leaving your desk.
+### 1. Advanced Network Diagnostic Suite
+* **Function:** A comprehensive, hardware-level utility matrix executing raw TCP/UDP port enumeration, ICMP latency tracking, and routing hop analysis (Traceroute) directly from the Scriptcase frontend.
+* **Operational Example:** If a critical Linux server stops responding to application requests, an administrator can instantly trigger a localized Nmap port scan from the dashboard to verify if SSH (Port 22) or HTTP (Port 80) sockets are actively listening, isolating the failure domain before initiating a reboot.
 
-3. Remote Terminal (Web-SSH)
-* *What it does: A professional, browser-based console for direct Linux/Windows server administration.
-* *Example: Restart a service or update a config file on a remote server without needing a local SSH client like Putty.
+### 2. Autonomous Discovery & Asset Ingestion
+* **Function:** The web-facing interface for the Python-driven `scan.py` backend. It visualizes raw ARP and ICMP broadcast results, resolving MAC addresses to physical hardware vendors (OUI) and identifying unauthorized subnet intrusions.
+* **Operational Example:** When the automated hourly cron job detects a newly connected device, it surfaces in the Discovery queue. The administrator can review the node's exposed ports and execute a single-click "Import," migrating the device into the permanent MySQL asset inventory with assigned ownership metadata and static IP tagging.
 
-4. Discovery Engine
-* *What it does: An automated "sniffer" that identifies new devices appearing on the network.
-* *Example: It scans a defined IP range, finds a new camera, and allows you to "Import" it into the Asset Manager with one click.
+### 3. Surveillance Command (IP Camera Node)
+* **Function:** A low-latency, proxy-routed viewing portal for RTSP and MJPEG video streams, featuring native ONVIF protocol integration for hardware manipulation.
+* **Operational Example:** Administrators can monitor a live security feed while simultaneously utilizing the on-screen PTZ (Pan-Tilt-Zoom) directional overlay to manipulate the camera's mechanical lens. Real-time telemetry, including ping latency and node uptime, is overlaid directly onto the viewing matrix.
 
-5. Secure Document & Media Engine
-* *What it does: Securely renders PDFs, Word docs, and Media logs using server-side processing (PDF.js / Mammoth.js).
-* *Example: Review a network topology PDF or a recorded security clip (.mp4) instantly within the portal’s sandbox.
+### 4. Web-Based Secure Terminal (SSH Console)
+* **Function:** A zero-footprint, browser-integrated secure shell (SSH) emulator utilizing the platform's encrypted MySQL credential vault to authenticate against remote infrastructure.
+* **Operational Example:** Administrators can securely access a remote Linux server's command line to restart stalled daemon services, flush DNS caches, or modify configuration files entirely within the web browser, eliminating the need for localized clients like PuTTY or exposed VPN tunnels.
 
+### 5. Sandboxed Document & Media Viewer
+* **Function:** A server-side rendering engine (utilizing libraries like PDF.js and Mammoth.js) designed to enforce a strict "zero-download" security policy. It proxies and visualizes files residing on secure network storage directly into the browser DOM.
+* **Operational Example:** An administrator can instantly review an uploaded PDF network topology diagram, parse a `.docx` incident report, or scrub through an `.mp4` surveillance export securely within the platform's isolated sandbox, preventing potential malware execution or sensitive data leakage to the local workstation.
+
+### 6. Dynamic IP Address Management (IPAM)
+* **Function:** A localized tracking engine that maps DHCP lease lifecycles and static IP reservations against known MAC addresses, providing a visual heatmap of subnet utilization.
+* **Operational Example:** Before provisioning a new bare-metal server, an administrator can consult the IPAM grid to identify a block of historically unassigned IP addresses, ensuring no localized IP conflicts occur during deployment.
+
+### 7. Automated Alerting & Webhook Engine
+* **Function:** A reactive notification subsystem that triggers outbound webhooks (e.g., Telegram, Discord, or internal ticketing systems) when the Python health checker detects critical infrastructure state changes.
+* **Operational Example:** If a core network switch drops offline and fails three consecutive ICMP heartbeat checks, the engine immediately dispatches a high-priority push notification containing the node's IP, physical location tag, and downtime duration directly to the engineering team.
+
+## AND SO MUCH MORE....
 
 ## 🚀 Portal Screenshots
 
