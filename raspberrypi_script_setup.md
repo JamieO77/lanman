@@ -10,8 +10,9 @@ Before you can use the scripts so that Python can scan your network, the operati
 
 Log into your server via SSH, or locally and run this command in terminal to update the system and install the required tools:
 
-* sudo apt update && sudo apt upgrade -y
-* sudo apt install -y python3 python3-venv nmap traceroute snmp
+'''cmd
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3 python3-venv nmap traceroute snmp
 
 ## Step 2: Build the Python Sandbox
 Modern Linux systems lock the main Python installer to prevent you from breaking core system files. We will build a "Virtual Environment" (a safe, isolated folder) just for these scripts.
