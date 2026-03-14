@@ -10,7 +10,6 @@ Before you can use the scripts so that Python can scan your network, the operati
 
 Log into your server via SSH, or locally and run this command in terminal to update the system and install the required tools:
 
-'''cmd
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y python3 python3-venv nmap traceroute snmp
 
@@ -19,31 +18,31 @@ Modern Linux systems lock the main Python installer to prevent you from breaking
 
 Run these commands one by one. (Note: Replace jamie with your actual Linux username if it is different, such as pi or ubuntu):
 
-* mkdir -p /home/username/lanman_worker
-* cd /home/username/lanman_worker
-* python3 -m venv venv
-* source venv/bin/activate
+mkdir -p /home/username/lanman_worker
+cd /home/username/lanman_worker
+python3 -m venv venv
+source venv/bin/activate
   
 You will know this worked when your terminal prompt changes to start with (venv).
 
 ## Step 3: Install the Python Libraries
 While inside the active sandbox, install the exact parts the scripts need to talk to MySQL, connect to switches via SSH, and check websites.
 
-* pip install mysql-connector-python requests paramiko netmiko
+pip install mysql-connector-python requests paramiko netmiko
 
 ## Step 4: Add Your Scripts
 You need to place your two main scripts inside the /home/username/lanman_worker/ folder.
 
-* lanman.py - The 1-minute network discovery and health monitor.
-* lanman_clean.py - The daily database log cleanup tool.
+lanman.py - The 1-minute network discovery and health monitor.
+lanman_clean.py - The daily database log cleanup tool.
 
 You can download these from the repository, or create them directly using:
 
 ## CODE:
-* nano lanman.py
+nano lanman.py
 see repo file, download file, upload or copy and paste as you please...
 
-* nano lanman_clean.py
+nano lanman_clean.py
 see repofile , download file, upload or copy and paste as you please...
 
                                 
@@ -52,7 +51,7 @@ Cron is the brain that tells your scripts exactly when to wake up. We must use t
 
 Open the Cron editor:
 
-* crontab -e
+crontab -e
   
 Scroll to the very bottom of the file and paste these two exact lines. (Again, ensure /home/jamie/ matches your actual Linux user directory):
 
