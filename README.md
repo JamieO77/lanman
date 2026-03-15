@@ -217,6 +217,9 @@ The user-facing platform is a highly optimized, compiled Scriptcase PHP 8.2 web 
 ### LanMan Project....
 * **Database:** [Download Project ](COMING)
 
+* Username: admin_access
+* Password: admin_access
+
 ### LanMan Database Mysql
 * **Database:** [Open Database ](./lanmap_db.sql)
 
