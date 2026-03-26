@@ -2,7 +2,7 @@
 
 ### DOWNLOAD LINKS AT BOTTOM!
 
-LANMAN is a centralized, high-security command station designed for comprehensive network infrastructure and asset management. Engineered on a highly optimized web stack (PHP 8.2, MySQL 8.0, Scriptcase 9+), it functions as a secure, single-pane-of-glass interface for your entire local area network. It empowers administrators to monitor, diagnose, and actively manage remote nodes—ranging from IP surveillance cameras to headless Linux servers—directly from the browser, entirely eliminating the need for localized management clients or VPN tunneling. LanMan is a centralized, high-security command station for network infrastructure and asset management.
+LANMAN is a centralized, high-security command station designed for comprehensive network infrastructure and asset management. Engineered on a highly optimized web stack (PHP 8.2, MySQL 8.0, Scriptcase 9+), it functions as a secure, single-pane-of-glass interface for your entire local area network. It empowers administrators to monitor, diagnose, and actively manage remote nodes—ranging from IP surveillance cameras to headless Linux servers—directly from the browser, entirely eliminating the need for localized management clients. LanMan is a centralized, high-security command station for network infrastructure and asset management htat you can deploy locally.
 
 ### 🚀 Core Capabilities
 
