@@ -1,3 +1,6 @@
+CREATE DATABASE `lanman` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `lanman`;
+
 DROP TABLE IF EXISTS `asset_documents`;
 CREATE TABLE `asset_documents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -22,6 +25,89 @@ CREATE TABLE `asset_document_links` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `chats`;
+CREATE TABLE `chats` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usr_login` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT 'new session',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `fk_chat_user` (`usr_login`),
+  CONSTRAINT `fk_chat_user` FOREIGN KEY (`usr_login`) REFERENCES `sec_users` (`login`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `chat_api_logs`;
+CREATE TABLE `chat_api_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chat_id` int(11) NOT NULL,
+  `engine` varchar(50) NOT NULL,
+  `status` enum('success','error') DEFAULT 'success',
+  `error_message` text,
+  `latency_ms` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_chat_logs` (`chat_id`),
+  CONSTRAINT `fk_chat_logs` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `chat_files`;
+CREATE TABLE `chat_files` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chat_id` int(11) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_path` varchar(500) NOT NULL,
+  `file_type` varchar(50) DEFAULT 'document',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_chat_files` (`chat_id`),
+  CONSTRAINT `fk_chat_files` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `chat_messages`;
+CREATE TABLE `chat_messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chat_id` int(11) NOT NULL,
+  `role` enum('user','assistant') NOT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_chat_messages` (`chat_id`),
+  CONSTRAINT `fk_chat_messages` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `chat_prompts`;
+CREATE TABLE `chat_prompts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chat_id` int(11) DEFAULT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `prompt_text` text,
+  `icon` varchar(50) DEFAULT 'fa-terminal',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `chat_settings`;
+CREATE TABLE `chat_settings` (
+  `chat_id` int(11) NOT NULL,
+  `engine` varchar(50) DEFAULT 'gemini',
+  `output_length` varchar(50) DEFAULT 'medium',
+  `output_style` varchar(50) DEFAULT 'technical',
+  `memory_active` tinyint(1) DEFAULT '1',
+  `temperature` decimal(3,2) DEFAULT '0.70' COMMENT 'Creativity scale 0.0 to 1.0',
+  `system_instruction` text COMMENT 'The hidden base prompt for this specific chat',
+  `top_p` decimal(3,2) DEFAULT '1.00' COMMENT 'Nucleus sampling factor',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`chat_id`),
+  CONSTRAINT `fk_chat_settings` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 SET NAMES utf8mb4;
 
 DROP TABLE IF EXISTS `monitor_logs`;
@@ -29,8 +115,12 @@ CREATE TABLE `monitor_logs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `latency_ms` decimal(10,2) DEFAULT NULL,
+  `ssl_expiry_date` date DEFAULT NULL,
+  `http_status` int(11) DEFAULT NULL,
   `status` enum('online','offline') DEFAULT 'online',
   `checked_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ttfb_ms` decimal(10,2) DEFAULT '0.00',
+  `load_ms` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `fk_node_log` (`node_id`),
   CONSTRAINT `fk_node_log` FOREIGN KEY (`node_id`) REFERENCES `monitor_nodes` (`id`) ON DELETE CASCADE
@@ -63,6 +153,18 @@ CREATE TABLE `monitor_nodes` (
   `notes` text,
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `network_ai_cache`;
+CREATE TABLE `network_ai_cache` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `report_type` varchar(50) DEFAULT 'overview',
+  `summary_text` text,
+  `stats_snapshot` json DEFAULT NULL,
+  `generated_by` varchar(255) DEFAULT NULL COMMENT 'Links to sec_users.login',
+  `generated_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -137,6 +239,20 @@ CREATE TABLE `network_assets` (
   `restart_command` varchar(250) DEFAULT NULL,
   `enriched` tinyint(1) DEFAULT '0',
   `camera_type` varchar(50) DEFAULT 'mjpeg',
+  `auto_wake` tinyint(1) DEFAULT '0',
+  `network_scan_on` tinyint(1) DEFAULT '1',
+  `monitor_on` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `network_classification_rules`;
+CREATE TABLE `network_classification_rules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `regex_pattern` varchar(255) NOT NULL,
+  `check_target` enum('vendor','hostname') DEFAULT 'vendor',
+  `asset_type` varchar(50) NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -169,8 +285,6 @@ CREATE TABLE `network_discovery` (
   `is_ignored` tinyint(1) DEFAULT '0',
   `status` varchar(10) DEFAULT 'offline',
   `latency` decimal(10,2) DEFAULT '0.00',
-  `connected_port` varchar(50) DEFAULT NULL,
-  `connected_to_asset_id` int(11) DEFAULT NULL,
   `fail_count` int(11) DEFAULT '0',
   `hop_count` int(11) DEFAULT '0',
   `avg_latency` decimal(10,2) DEFAULT '0.00',
@@ -224,15 +338,29 @@ CREATE TABLE `network_log` (
 DROP TABLE IF EXISTS `network_logins`;
 CREATE TABLE `network_logins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL,
-  `parent_type` enum('asset','service') NOT NULL,
+  `usr_login` varchar(250) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `parent_type` enum('asset','service') DEFAULT NULL,
   `login_label` varchar(50) DEFAULT NULL,
   `login_path` varchar(250) DEFAULT NULL,
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
+  `key` varchar(250) DEFAULT NULL,
   `notes` text,
   `is_snmp` tinyint(1) NOT NULL DEFAULT '0',
+  `is_docker` tinyint(1) NOT NULL DEFAULT '0',
   `display_dash` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `network_monthly_reports`;
+CREATE TABLE `network_monthly_reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `report_month` varchar(7) NOT NULL COMMENT 'yyyy-mm format',
+  `report_type` varchar(50) DEFAULT 'ssl_dns',
+  `report_data` text,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -302,12 +430,42 @@ CREATE TABLE `network_options` (
   `display_slow_assets` tinyint(1) DEFAULT '1',
   `display_vendor_mix` tinyint(1) DEFAULT '1',
   `display_distro` tinyint(1) DEFAULT '1',
-  `root_path` varchar(250) DEFAULT NULL,
+  `root_path` varchar(250) DEFAULT '',
+  `enable_robo_llm` int(1) DEFAULT '1',
+  `api_key_openai` varchar(255) DEFAULT NULL,
+  `api_key_gemini` varchar(255) DEFAULT NULL,
+  `url_ollama` varchar(255) DEFAULT 'http://127.0.0.1:11434',
+  `ollama_default_model` varchar(100) DEFAULT 'llama3',
+  `enable_ai_overview` tinyint(1) DEFAULT '0',
+  `enable_pdf_report` tinyint(1) DEFAULT '0',
+  `llm_default_provider` enum('gemini','ollama','openai') DEFAULT 'gemini',
+  `pdf_template_style` varchar(50) DEFAULT 'modern_dark',
+  `enable_ai_log_clean` tinyint(1) DEFAULT '0',
+  `robo_alert` tinyint(1) DEFAULT '1',
+  `robo_alert_sound` blob,
+  `robo_alert_filename` text,
+  `robo_alert_size` tinytext,
+  `nmap_path` varchar(500) DEFAULT 'nmap',
+  `scan_range` varchar(255) DEFAULT '192.168.1.0/24',
+  `scan_monitor_time` int(11) DEFAULT '5' COMMENT 'minutes',
+  `scan_speed_time` int(11) DEFAULT '30' COMMENT 'minutes',
+  `last_run_main` datetime DEFAULT NULL,
+  `last_run_tools` datetime DEFAULT NULL,
+  `last_run_clean` datetime DEFAULT NULL,
+  `scan_main_time` int(11) DEFAULT '1' COMMENT 'minutes',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `network_options` (`id`, `enable_search_bar`, `enable_telegram`, `enable_email`, `enable_discovery`, `enable_monitoring`, `discovery_keep_duration`, `enable_enhance`, `enhance_repeat_min`, `enable_connections`, `enable_clean`, `clean_days`, `ping_rate_seconds`, `latency_threshold_ms`, `telegram_token`, `telegram_chat_id`, `email_address`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `smtp_secure`, `enable_snmp`, `default_snmp_community`, `host_os`, `alarm_email_count`, `alarm_telegram_count`, `alarm_email_notice`, `alarm_telegram_notice`, `connection_timeout`, `discovery_parallel`, `discovery_max_threads`, `discovery_timeout_min`, `discovery_auto_throttle`, `check_load`, `max_load_threshold`, `enable_slack`, `slack_webhook_url`, `email_notify_failure`, `email_notify_lost`, `email_notify_new`, `email_notify_latency`, `tg_notify_failure`, `tg_notify_lost`, `tg_notify_new`, `tg_notify_latency`, `slack_notify_failure`, `slack_notify_lost`, `slack_notify_new`, `slack_notify_latency`, `alarm_cpu`, `alarm_ram`, `alarm_disk`, `ping_target`, `show_latency`, `show_favs`, `show_speed_gauge`, `db_name`, `display_bottlneck`, `display_availability`, `display_slow_assets`, `display_vendor_mix`, `display_distro`, `root_path`) VALUES
-(1,	1,	0,	0,	1,	1,	14,	1,	30,	1,	1,	14,	300,	100,	'',	'',	'',	'',	587,	'',	'',	'tls',	1,	'public',	'windows',	3,	3,	1,	1,	5,	0,	10,	3,	1,	1,	80,	0,	'',	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	70,	80,	90,	'8.8.8.8',	1,	1,	1,	'lanman',	1,	1,	1,	1,	1,	'../');
+INSERT INTO `network_options` (`id`, `enable_search_bar`, `enable_telegram`, `enable_email`, `enable_discovery`, `enable_monitoring`, `discovery_keep_duration`, `enable_enhance`, `enhance_repeat_min`, `enable_connections`, `enable_clean`, `clean_days`, `ping_rate_seconds`, `latency_threshold_ms`, `telegram_token`, `telegram_chat_id`, `email_address`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `smtp_secure`, `enable_snmp`, `default_snmp_community`, `host_os`, `alarm_email_count`, `alarm_telegram_count`, `alarm_email_notice`, `alarm_telegram_notice`, `connection_timeout`, `discovery_parallel`, `discovery_max_threads`, `discovery_timeout_min`, `discovery_auto_throttle`, `check_load`, `max_load_threshold`, `enable_slack`, `slack_webhook_url`, `email_notify_failure`, `email_notify_lost`, `email_notify_new`, `email_notify_latency`, `tg_notify_failure`, `tg_notify_lost`, `tg_notify_new`, `tg_notify_latency`, `slack_notify_failure`, `slack_notify_lost`, `slack_notify_new`, `slack_notify_latency`, `alarm_cpu`, `alarm_ram`, `alarm_disk`, `ping_target`, `show_latency`, `show_favs`, `show_speed_gauge`, `db_name`, `display_bottlneck`, `display_availability`, `display_slow_assets`, `display_vendor_mix`, `display_distro`, `root_path`, `enable_robo_llm`, `api_key_openai`, `api_key_gemini`, `url_ollama`, `ollama_default_model`, `enable_ai_overview`, `enable_pdf_report`, `llm_default_provider`, `pdf_template_style`, `enable_ai_log_clean`, `robo_alert`, `robo_alert_sound`, `robo_alert_filename`, `robo_alert_size`, `nmap_path`, `scan_range`, `scan_monitor_time`, `scan_speed_time`, `last_run_main`, `last_run_tools`, `last_run_clean`, `scan_main_time`) VALUES
+(1,	1,	0,	0,	1,	1,	14,	1,	30,	0,	1,	14,	300,	100,	'',	'',	'',	'',	587,	'',	'',	'tls',	1,	'public',	'windows',	3,	3,	1,	1,	5,	0,	10,	3,	1,	1,	80,	0,	'',	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	70,	80,	90,	'8.8.8.8',	1,	1,	1,	'lanman',	1,	1,	1,	1,	1,	'../',	1,	'',	'AIzaSyAmWrwv5iEaQYGoLfhswheZi-mrKbtGVKM',	'http://192.168.1.11:11434',	'gemma3:4b',	1,	1,	'gemini',	'modern_dark',	1,	1,	NULL,	NULL,	NULL,	'C:\\Program Files (x86)\\Nmapmap.exe',	'192.168.1.0/24',	5,	30,	NULL,	NULL,	NULL,	1);
+
+DROP TABLE IF EXISTS `network_oui_lookup`;
+CREATE TABLE `network_oui_lookup` (
+  `oui` varchar(10) NOT NULL,
+  `vendor_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`oui`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `network_performance_summary`;
 CREATE TABLE `network_performance_summary` (
@@ -331,6 +489,7 @@ CREATE TABLE `network_services` (
   `is_docker` tinyint(1) DEFAULT '0',
   `is_active` tinyint(1) DEFAULT '1',
   `last_seen` timestamp NULL DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'online',
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   CONSTRAINT `network_services_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `network_assets` (`id`) ON DELETE CASCADE
@@ -364,6 +523,119 @@ CREATE TABLE `network_traces` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `network_wake_log`;
+CREATE TABLE `network_wake_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(11) NOT NULL,
+  `ip_address` varchar(25) NOT NULL,
+  `hostname` varchar(255) DEFAULT NULL,
+  `mac_address` varchar(20) NOT NULL,
+  `status` enum('success','failure','pending') DEFAULT 'pending',
+  `attempt_count` int(11) DEFAULT '1',
+  `next_check_at` datetime DEFAULT NULL,
+  `wake_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_wake_asset` (`asset_id`),
+  CONSTRAINT `fk_wake_asset` FOREIGN KEY (`asset_id`) REFERENCES `network_assets` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `note_document_links`;
+CREATE TABLE `note_document_links` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_id` int(11) NOT NULL,
+  `note_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `note_doc_fk_doc` (`document_id`),
+  KEY `note_doc_fk_note` (`note_id`),
+  CONSTRAINT `note_doc_fk_doc` FOREIGN KEY (`document_id`) REFERENCES `asset_documents` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `note_doc_fk_note` FOREIGN KEY (`note_id`) REFERENCES `portal_notes` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `ping_pong_scores`;
+CREATE TABLE `ping_pong_scores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_name` varchar(50) NOT NULL,
+  `player_score` int(11) NOT NULL,
+  `computer_score` int(11) NOT NULL,
+  `played_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `portal_folders`;
+CREATE TABLE `portal_folders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_login` varchar(250) NOT NULL,
+  `parent_id` int(10) unsigned DEFAULT NULL,
+  `folder_name` varchar(100) NOT NULL,
+  `folder_desc` varchar(250) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_pinned` tinyint(1) DEFAULT '0',
+  `is_archived` tinyint(1) DEFAULT '0',
+  `highlight_color` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  CONSTRAINT `portal_folders_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `portal_folders` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `portal_notes`;
+CREATE TABLE `portal_notes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_login` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `folder_id` int(10) unsigned DEFAULT NULL,
+  `target_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'general',
+  `target_id` int(11) DEFAULT '0',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `priority` enum('low','medium','high','urgent') COLLATE utf8mb4_unicode_ci DEFAULT 'medium',
+  `is_pinned` tinyint(1) DEFAULT '0',
+  `is_archived` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `folder_id` (`folder_id`),
+  KEY `idx_note_targets` (`target_type`,`target_id`),
+  FULLTEXT KEY `ft_search` (`title`,`content`),
+  CONSTRAINT `portal_notes_ibfk_1` FOREIGN KEY (`folder_id`) REFERENCES `portal_folders` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `portal_notes_history`;
+CREATE TABLE `portal_notes_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `note_id` int(10) unsigned NOT NULL,
+  `content_snapshot` longtext NOT NULL,
+  `version_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `note_id` (`note_id`),
+  CONSTRAINT `portal_notes_history_ibfk_1` FOREIGN KEY (`note_id`) REFERENCES `portal_notes` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `portal_note_tags`;
+CREATE TABLE `portal_note_tags` (
+  `note_id` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`note_id`,`tag_id`),
+  KEY `tag_id` (`tag_id`),
+  CONSTRAINT `portal_note_tags_ibfk_1` FOREIGN KEY (`note_id`) REFERENCES `portal_notes` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `portal_note_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `portal_tags` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `portal_tags`;
+CREATE TABLE `portal_tags` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_name` varchar(50) NOT NULL,
+  `color_code` varchar(7) DEFAULT '#3498db',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tag_name` (`tag_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 DROP TABLE IF EXISTS `sec_settings`;
 CREATE TABLE `sec_settings` (
   `set_name` varchar(255) NOT NULL,
@@ -382,7 +654,7 @@ INSERT INTO `sec_settings` (`set_name`, `set_value`) VALUES
 ('auth_sn_x',	'N'),
 ('auth_sn_x_key',	''),
 ('auth_sn_x_secret',	''),
-('brute_force',	'N'),
+('brute_force',	'Y'),
 ('brute_force_attempts',	'10'),
 ('brute_force_time_block',	'10'),
 ('captcha',	'N'),
@@ -400,22 +672,22 @@ INSERT INTO `sec_settings` (`set_name`, `set_value`) VALUES
 ('new_users',	'N'),
 ('password_min',	'5'),
 ('password_strength',	'uppercase_letter;lowercase_letter;numbers;special_chars'),
-('pswd_last_updated',	'60'),
+('pswd_last_updated',	'360'),
 ('recover_pswd',	'send_link'),
 ('remember_me',	'Y'),
 ('req_email_act',	'N'),
 ('retrieve_password',	'Y'),
 ('send_email_adm',	'Y'),
-('session_expire',	'0'),
+('session_expire',	'N'),
 ('smtp_api',	'usr__NM__jamieoates'),
 ('smtp_from_email',	''),
 ('smtp_from_name',	''),
 ('smtp_pass',	''),
-('smtp_port',	''),
+('smtp_port',	'0'),
 ('smtp_security',	''),
 ('smtp_server',	''),
 ('smtp_user',	''),
-('theme',	'sys__NM__lanman_v2');
+('theme',	'lanman_v2');
 
 DROP TABLE IF EXISTS `sec_users`;
 CREATE TABLE `sec_users` (
@@ -435,8 +707,6 @@ CREATE TABLE `sec_users` (
   PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `sec_users` (`login`, `pswd`, `name`, `email`, `active`, `activation_code`, `priv_admin`, `mfa`, `picture`, `role`, `phone`, `pswd_last_updated`, `mfa_last_updated`) VALUES
-('admin_access',	'490776320cbab6e6f83e71b22868382e7340db4c7a9f990683de3103a893dbfbea08cc9370fb6ac6e10893af03aacbaf5c701904c97c085ccac46ba1103b454c',	'Jamie Oates',	'jamie@jamieoates.com',	'Y',	NULL,	'Y',	NULL,	NULL,	NULL,	NULL,	'2026-01-10 15:10:25',	NULL);
 
 DROP TABLE IF EXISTS `service_document_links`;
 CREATE TABLE `service_document_links` (
@@ -462,5 +732,3 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_slow_assets` AS selec
 
 DROP TABLE IF EXISTS `view_slow_assets_dynamic`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_slow_assets_dynamic` AS select `a`.`id` AS `id`,`a`.`asset_name` AS `asset_name`,`a`.`ip_address` AS `ip_address`,`l`.`latency` AS `latency`,`l`.`check_time` AS `check_time`,`o`.`latency_threshold_ms` AS `latency_threshold_ms` from ((`network_assets` `a` join `network_log` `l` on((`a`.`id` = `l`.`asset_id`))) join `network_options` `o` on((`o`.`id` = 1))) where ((`l`.`latency` > `o`.`latency_threshold_ms`) and (`l`.`check_time` >= (now() - interval 24 hour)));
-
--- 2026-03-11 17:47:37 UTC
