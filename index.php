@@ -38,26 +38,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
 	<!-- OFFLINE fallback -->
 	<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-	<script>
-	  (function() {
-		// Check if the v4 engine failed to load or initialize
-		if (typeof window.tailwind === 'undefined') {
-		  const link = document.createElement('link');
-		  link.rel = 'stylesheet';
-		  link.type = 'text/css';
-		  // Use Scriptcase PHP to get the correct library path
-		  link.href = "<?php echo sc_url_library('prj', 'lib', 'tailwind2.css'); ?>";
-		  document.head.appendChild(link);
+<script>
+  (function() {
+    // Check if Tailwind v3/v4 failed to load from CDN
+    if (typeof window.tailwind === 'undefined') {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = "../_lib/libraries/grp/lib/TailwindCSS/tailwind2.css";
+      
+      document.head.appendChild(link);
 
-		  console.warn("Tailwind 4 Offline: Switched to Local Tailwind 2.");
+      console.warn("CRITICAL: Tailwind CDN Offline. Initializing Local v2 Fallback.");
 
-		  // Manual 'hidden' fix for v2 compatibility
-		  const style = document.createElement('style');
-		  style.innerHTML = ".hidden { display: none !important; }";
-		  document.head.appendChild(style);
-		}
-	  })();
-	</script>
+      // 2. Compatibility Patch for .hidden class
+      const style = document.createElement('style');
+      style.innerHTML = ".hidden { display: none !important; }";
+      document.head.appendChild(style);
+    }
+  })();
+</script>
 	
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
