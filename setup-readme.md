@@ -45,7 +45,8 @@ The backend engine requires raw network socket access to transmit ARP and ICMP p
     ```
 
 #### Windows Execution
-1.  **Install System Dependencies:** Download and install the official [Nmap executable for Windows](https://nmap.org/download.html). Ensure **Npcap** is selected during the installation process, as it is strictly required for Scapy to interface with Windows network adapters.
+1.  **Install System Dependencies:** Download and install the official [Nmap executable for Windows](https://nmap.org/download.html). Ensure **Npcap** is selected during the installation process, as it is strictly required for Scapy to interface with Windows network adapters, also select the same settings during install to ensure nmap access to network layer: <img width="367" height="287" alt="image" src="https://github.com/user-attachments/assets/3f27ab21-fc2a-431e-8c3e-5e7da0f8378c" />
+
 2.  **Open Task Scheduler:** Launch the Windows Task Scheduler (`taskschd.msc`).
 3.  **Create Scanner Task:** * **General:** Name it "Lanman Scanner". Check **"Run with highest privileges"** (Required for Npcap).
     * **Triggers:** New -> Daily -> Repeat task every 1 hour.
