@@ -249,6 +249,37 @@ The user-facing platform is a highly optimized, compiled Scriptcase PHP 8.2 web 
   * app_login: The secure entry point for the platform.
   * grid_audit_trail: Complete history of who accessed what and when.
 
+
+## 🌐 Recommended Deployment & Hosting Environments
+
+LanMan V.3 is engineered for versatility, capable of operating on diverse infrastructure stacks ranging from ultra-portable mobile kits to high-availability enterprise servers.
+
+### 1. Ultra-Portable Deployment (Mobile Subnet Scanning)
+For field operations, "War-Driving," or temporary onsite network audits, we recommend a lightweight, portable stack that can run directly from a laptop or high-speed USB drive.
+* **Recommended Environment:** **Uniform Server (UniServerZ)**
+* **Stack:** Apache 2.4 / PHP 8.2 / MariaDB 10.
+* **Operational Advantage:** UniServerZ is a zero-install, "WAMP" stack that provides a high-performance, isolated environment. It allows an administrator to move between different physical subnets, plug in a localized LAN cable, and instantly begin the Autonomous Discovery process without modifying the host machine's global configuration.
+
+### 2. High-Availability Command Station (Dedicated Infrastructure)
+For permanent oversight of a corporate or data-center environment, LanMan should be deployed on a dedicated Linux-based host to ensure 24/7 telemetry collection.
+* **Recommended Environment:** **Ubuntu Server 22.04 LTS / Debian 12**
+* **Stack:** Nginx (Reverse Proxy) / PHP-FPM 8.2 / MySQL 8.0.
+* **Operational Advantage:** Linux offers superior handling of raw sockets for the `scapy` Python engine. Utilizing a dedicated server ensures that the Cron Lifecycle for heartbeat monitoring and log rotation never experiences "Sleep State" interruptions common in desktop environments.
+
+### 3. Containerized Isolation (Docker Nexus)
+For administrators utilizing the **Docker Composer** tool within the LanMan toolkit, deploying the platform itself within a containerized environment provides maximum security and portability., but highly limits automation/scripts, best solution would involve a raspberry Pi!
+* **Recommended Environment:** **Docker Engine / Portainer / PI**
+* **Stack:** Alpine-based PHP 8.2 Image / Official MySQL 8 Container + apps - see stacks (./https://github.com/JamieO77/docker-stacks)!
+* **Operational Advantage:** Isolation of the SSH terminal and file-viewer sandboxes. By utilizing Docker's bridge networking, LanMan can scan both the internal container network and the physical host network (via `network_mode: host`) simultaneously.
+
+----
+
+### 📡 Network Interface Requirements
+Regardless of the hosting choice, ensure the following hardware conditions are met for optimal reconnaissance:
+* **Promiscuous Mode:** The network interface (NIC) must support Promiscuous Mode to capture all broadcast traffic on the subnet.
+* **Low-Latency Interconnect:** For the **Service Integrity Matrix**, a hardwired Gigabit Ethernet connection is preferred over Wi-Fi to eliminate transient packet loss from the telemetry charts.
+* **Sudo/Admin Privileges:** The hosting environment must allow the Python engine to execute with elevated privileges to access raw ICMP and ARP sockets.
+* 
 ### INDEX PAGE REPLACEMENT
 * **Access the _lib/libraries/grp/lib folder, copy index.php, and replace with the one in the root folder
 * **Or Download if from here and replace:  [Open Index Page Replacement ](./index.php)
