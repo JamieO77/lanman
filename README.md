@@ -152,6 +152,42 @@ This menu acts as your digital Swiss Army knife. It contains specialized mini-ap
   
 * AND SO MUCH MORE!!!!
 
+## ⚙️ Automation & Cron Lifecycle
+
+To maintain a real-time "Zero-Footprint" administration environment, LanMan utilizes a multi-tiered automation strategy. These background workers ensure the MySQL discovery engine and log buffers remain optimized and accurate without manual intervention.
+
+### 1. Persistent Network Discovery (`lanmap.py`)
+This is the primary reconnaissance engine. It is designed to run frequently to catch new DHCP leases, track latency spikes, and identify rogue devices.
+* **Frequency:** Recommended every 5–15 minutes.
+* **Function:** Executes raw ARP/ICMP sweeps, resolves hardware OUI (Vendor) data, and updates the `network_assets` table with fresh telemetry and status timestamps.
+
+### 2. Autonomous State Sanitization (`lanmap_clean.py`)
+This script acts as the system's "Garbage Collector," ensuring the dashboard and database remain high-performance.
+* **Frequency:** Recommended every 1–2 hours.
+* **Function:** Purges host records that have failed to respond to discovery sweeps over a defined threshold and truncates historical telemetry logs to prevent storage bloat.
+
+### 3. Service & Health Polling (PHP/Scriptcase Workers)
+While the Python engine handles the Data-Link layer, the internal PHP workers manage high-level Service Integrity (Web, SQL, SSH availability).
+* **Frequency:** Triggered via system flags or scheduled intervals.
+* **Function:** Updates the "Service Integrity Matrix" and dispatches high-priority webhooks (Telegram/Slack/Email) the moment a critical node state transitions to **OFFLINE**.
+
+---
+
+### 🛠️ Example Crontab Configuration
+For a standard production deployment, add the following to your crontab (`crontab -e`) to ensure maximum infrastructure visibility:
+
+```bash
+# LanMan V.3 Automation Suite
+# -----------------------------------------------------------
+# 1. Discover new assets and update latency every 5 mins
+*/5 * * * * /usr/bin/python3 /var/www/html/scripts/lanmap.py >> /var/log/lanman_scan.log 2>&1
+
+# 2. Cleanup stale records and truncate logs every hour at minute 0
+0 * * * * /usr/bin/python3 /var/www/html/scripts/lanmap_clean.py >> /var/log/lanman_clean.log 2>&1
+
+# 3. Optional: Trigger Service Integrity Matrix (Every minute)
+* * * * * /usr/bin/php /var/www/html/index.php --action=health_check > /dev/null 2>&1
+```
 
 ## 🔧 Full System Explanation: Lanman Network Discovery Platform
 
