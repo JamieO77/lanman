@@ -1,4 +1,5 @@
-CREATE DATABASE `lanman` /*!40100 DEFAULT CHARACTER SET utf8 */;
+DROP DATABASE IF EXISTS `lanman`;
+CREATE DATABASE `lanman`;
 USE `lanman`;
 
 DROP TABLE IF EXISTS `asset_documents`;
@@ -11,7 +12,7 @@ CREATE TABLE `asset_documents` (
   `file_size_kb` int(11) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `asset_document_links`;
@@ -22,7 +23,7 @@ CREATE TABLE `asset_document_links` (
   PRIMARY KEY (`id`),
   KEY `document_id` (`document_id`),
   CONSTRAINT `asset_document_links_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `asset_documents` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `chats`;
@@ -35,7 +36,7 @@ CREATE TABLE `chats` (
   PRIMARY KEY (`id`),
   KEY `fk_chat_user` (`usr_login`),
   CONSTRAINT `fk_chat_user` FOREIGN KEY (`usr_login`) REFERENCES `sec_users` (`login`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `chat_api_logs`;
@@ -89,7 +90,7 @@ CREATE TABLE `chat_prompts` (
   `prompt_text` text,
   `icon` varchar(50) DEFAULT 'fa-terminal',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `chat_settings`;
@@ -124,7 +125,7 @@ CREATE TABLE `monitor_logs` (
   PRIMARY KEY (`id`),
   KEY `fk_node_log` (`node_id`),
   CONSTRAINT `fk_node_log` FOREIGN KEY (`node_id`) REFERENCES `monitor_nodes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `monitor_nodes`;
@@ -154,8 +155,7 @@ CREATE TABLE `monitor_nodes` (
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `network_ai_cache`;
 CREATE TABLE `network_ai_cache` (
@@ -177,8 +177,9 @@ CREATE TABLE `network_alerts` (
   `alert_type` varchar(50) DEFAULT NULL,
   `message` text,
   `sent_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `is_notified` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_assets`;
@@ -243,8 +244,7 @@ CREATE TABLE `network_assets` (
   `network_scan_on` tinyint(1) DEFAULT '1',
   `monitor_on` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `network_classification_rules`;
 CREATE TABLE `network_classification_rules` (
@@ -254,7 +254,7 @@ CREATE TABLE `network_classification_rules` (
   `asset_type` varchar(50) NOT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `network_connections`;
@@ -270,7 +270,7 @@ CREATE TABLE `network_connections` (
   KEY `target_asset_id` (`target_asset_id`),
   CONSTRAINT `network_connections_ibfk_1` FOREIGN KEY (`source_asset_id`) REFERENCES `network_assets` (`id`) ON DELETE CASCADE,
   CONSTRAINT `network_connections_ibfk_2` FOREIGN KEY (`target_asset_id`) REFERENCES `network_assets` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `network_discovery`;
@@ -293,7 +293,7 @@ CREATE TABLE `network_discovery` (
   `enriched` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_address` (`ip_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `network_error_log`;
@@ -305,7 +305,7 @@ CREATE TABLE `network_error_log` (
   `error_type` varchar(50) DEFAULT 'connection',
   `error_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `network_health_log`;
@@ -332,7 +332,7 @@ CREATE TABLE `network_log` (
   PRIMARY KEY (`id`),
   KEY `ip_address` (`ip_address`),
   KEY `asset_id` (`asset_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_logins`;
@@ -351,7 +351,7 @@ CREATE TABLE `network_logins` (
   `is_docker` tinyint(1) NOT NULL DEFAULT '0',
   `display_dash` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_monthly_reports`;
@@ -362,7 +362,7 @@ CREATE TABLE `network_monthly_reports` (
   `report_data` text,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_options`;
@@ -457,7 +457,7 @@ CREATE TABLE `network_options` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `network_options` (`id`, `enable_search_bar`, `enable_telegram`, `enable_email`, `enable_discovery`, `enable_monitoring`, `discovery_keep_duration`, `enable_enhance`, `enhance_repeat_min`, `enable_connections`, `enable_clean`, `clean_days`, `ping_rate_seconds`, `latency_threshold_ms`, `telegram_token`, `telegram_chat_id`, `email_address`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `smtp_secure`, `enable_snmp`, `default_snmp_community`, `host_os`, `alarm_email_count`, `alarm_telegram_count`, `alarm_email_notice`, `alarm_telegram_notice`, `connection_timeout`, `discovery_parallel`, `discovery_max_threads`, `discovery_timeout_min`, `discovery_auto_throttle`, `check_load`, `max_load_threshold`, `enable_slack`, `slack_webhook_url`, `email_notify_failure`, `email_notify_lost`, `email_notify_new`, `email_notify_latency`, `tg_notify_failure`, `tg_notify_lost`, `tg_notify_new`, `tg_notify_latency`, `slack_notify_failure`, `slack_notify_lost`, `slack_notify_new`, `slack_notify_latency`, `alarm_cpu`, `alarm_ram`, `alarm_disk`, `ping_target`, `show_latency`, `show_favs`, `show_speed_gauge`, `db_name`, `display_bottlneck`, `display_availability`, `display_slow_assets`, `display_vendor_mix`, `display_distro`, `root_path`, `enable_robo_llm`, `api_key_openai`, `api_key_gemini`, `url_ollama`, `ollama_default_model`, `enable_ai_overview`, `enable_pdf_report`, `llm_default_provider`, `pdf_template_style`, `enable_ai_log_clean`, `robo_alert`, `robo_alert_sound`, `robo_alert_filename`, `robo_alert_size`, `nmap_path`, `scan_range`, `scan_monitor_time`, `scan_speed_time`, `last_run_main`, `last_run_tools`, `last_run_clean`, `scan_main_time`) VALUES
-(1,	1,	0,	0,	1,	1,	14,	1,	30,	0,	1,	14,	300,	100,	'',	'',	'',	'',	587,	'',	'',	'tls',	1,	'public',	'windows',	3,	3,	1,	1,	5,	0,	10,	3,	1,	1,	80,	0,	'',	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	70,	80,	90,	'8.8.8.8',	1,	1,	1,	'lanman',	1,	1,	1,	1,	1,	'../',	1,	'',	'AIzaSyAmWrwv5iEaQYGoLfhswheZi-mrKbtGVKM',	'http://192.168.1.11:11434',	'gemma3:4b',	1,	1,	'gemini',	'modern_dark',	1,	1,	NULL,	NULL,	NULL,	'C:\\Program Files (x86)\\Nmapmap.exe',	'192.168.1.0/24',	5,	30,	NULL,	NULL,	NULL,	1);
+(1,	1,	0,	0,	1,	1,	14,	1,	30,	0,	1,	14,	300,	100,	'',	'',	'',	'',	587,	'',	'',	'tls',	1,	'public',	'windows',	3,	3,	1,	1,	5,	0,	10,	3,	1,	1,	80,	0,	'',	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	70,	80,	90,	'8.8.8.8',	1,	1,	1,	'lanman',	1,	1,	1,	1,	1,	'../',	0,	'',	'AIzaSyAmWrwv5iEaQYGoLfhswheZi-mrKbtGVKM',	'http://192.168.1.11:11434',	'gemma3:4b',	1,	1,	'gemini',	'modern_dark',	1,	1,	NULL,	NULL,	NULL,	'C:\\Program Files (x86)\\Nmapmap.exe',	'192.168.1.0/24',	5,	30,	'2026-03-27 16:57:52',	'2026-03-27 18:24:41',	'2026-03-27 00:19:09',	1);
 
 DROP TABLE IF EXISTS `network_oui_lookup`;
 CREATE TABLE `network_oui_lookup` (
@@ -466,6 +466,130 @@ CREATE TABLE `network_oui_lookup` (
   PRIMARY KEY (`oui`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `network_oui_lookup` (`oui`, `vendor_name`) VALUES
+('000DB9',	'PC ENGINES GMBH'),
+('00:00:0C',	'Cisco Systems, Inc.'),
+('00:00:15',	'Ford Motor Company'),
+('00:01:42',	'Cisco Systems, Inc.'),
+('00:01:6C',	'Foxconn'),
+('00:02:61',	'LG Electronics'),
+('00:02:72',	'YouTube, LLC'),
+('00:02:B3',	'Intel Corporate'),
+('00:03:7F',	'Atheros Communications, Inc.'),
+('00:03:FF',	'Microsoft Corporation'),
+('00:04:4B',	'NVIDIA Corporation'),
+('00:04:F2',	'Polycom'),
+('00:05:9A',	'Cisco Systems, Inc.'),
+('00:07:80',	'Blue-Tree Wireless Data Inc.'),
+('00:07:E9',	'Intel Corporate'),
+('00:0C:29',	'VMware, Inc.'),
+('00:0C:F1',	'Intel Corporate'),
+('00:0E:35',	'Intel Corporate'),
+('00:10:75',	'Seagate Technology'),
+('00:10:FA',	'Apple, Inc.'),
+('00:11:32',	'Synology Incorporated'),
+('00:13:10',	'Cisco Systems, Inc.'),
+('00:13:E8',	'Intel Corporate'),
+('00:14:22',	'Dell Inc.'),
+('00:15:99',	'Samsung Electronics Co.,Ltd'),
+('00:16:3E',	'Xensource, Inc.'),
+('00:17:F2',	'Apple, Inc.'),
+('00:18:D1',	'TiVo Inc.'),
+('00:1A:11',	'Google, Inc.'),
+('00:1D:0F',	'TP-Link Corporation Limited'),
+('00:1D:BA',	'Sony Computer Entertainment Inc.'),
+('00:1E:67',	'Intel Corporate'),
+('00:1F:3B',	'Intel Corporate'),
+('00:21:5A',	'Hewlett Packard'),
+('00:21:70',	'Western Digital Technologies, Inc.'),
+('00:22:6B',	'Cisco Systems, Inc.'),
+('00:23:24',	'GIGA-BYTE TECHNOLOGY CO.,LTD.'),
+('00:24:D7',	'Intel Corporate'),
+('00:25:90',	'Super Micro Computer, Inc.'),
+('00:26:08',	'Apple, Inc.'),
+('00:26:50',	'Samsung Electronics Co.,Ltd'),
+('00:26:BB',	'Apple, Inc.'),
+('00:50:56',	'VMware, Inc.'),
+('00:50:BA',	'D-Link Corporation'),
+('00:90:7F',	'ZTE Corporation'),
+('08:00:27',	'PC Partner Limited (Oracle VirtualBox)'),
+('10:40:F3',	'Apple, Inc.'),
+('10:5E:11',	'Apple, Inc.'),
+('10:DD:B1',	'Apple, Inc.'),
+('14:18:77',	'Dell Inc.'),
+('18:65:90',	'Apple, Inc.'),
+('18:AF:61',	'Apple, Inc.'),
+('18:B4:30',	'Nest Labs Inc.'),
+('1C:1A:DF',	'Amazon Technologies Inc.'),
+('1C:ABB0',	'TCL Technoly Electronics (Huizhou) Co., Ltd.'),
+('20:34:FB',	'Xiaomi Communications Co., Ltd'),
+('24:5E:BE',	'Hewlett Packard Enterprise'),
+('28:D2:44',	'Huawei Technologies Co.,Ltd'),
+('28F52B',	'FN-LINK TECHNOLOGY LTD.'),
+('2C:30:33',	'NETGEAR'),
+('2C:F0:EE',	'Intel Corporate'),
+('30BB7D',	'ONEPLUS TECHNOLOGY (SHENZHEN) CO., LTD'),
+('34:12:98',	'Samsung Electronics Co.,Ltd'),
+('34:64:19',	'Arris Group, Inc.'),
+('34:69:87',	'Apple, Inc.'),
+('34:AF:2C',	'Nintendo Co., Ltd.'),
+('34:E6:D7',	'TP-Link Corporation Limited'),
+('38:F7:3D',	'Apple, Inc.'),
+('3C:D9:2B',	'Hewlett Packard'),
+('40:4D:7F',	'Apple, Inc.'),
+('40:51:6C',	'Apple, Inc.'),
+('40:B0:FA',	'Apple, Inc.'),
+('40AE30',	'TP-LINK SYSTEMS INC'),
+('44:65:0D',	'Amazon Technologies Inc.'),
+('44:AD:D9',	'Volkswagen AG'),
+('48:8F:5A',	'Microsoft Corporation'),
+('48:D6:D5',	'Google, Inc.'),
+('4C82A9',	'CLOUD NETWORK TECHNOLOGY SINGAPORE PTE. LTD.'),
+('50:1A:C5',	'Apple, Inc.'),
+('50:65:F3',	'Hewlett Packard Enterprise'),
+('50:C7:BF',	'TP-Link Corporation Limited'),
+('54:27:1E',	'Google, Inc.'),
+('58:D3:49',	'Google, Inc.'),
+('58:EF:68',	'Amazon Technologies Inc.'),
+('60:45:BD',	'Google, Inc.'),
+('64:16:66',	'Apple, Inc.'),
+('64:D1:54',	'MikroTik'),
+('681DEF',	'SHENZHEN CYX TECHNOLOGY CO., LTD.'),
+('68:37:E9',	'Amazon Technologies Inc.'),
+('70:35:09',	'Apple, Inc.'),
+('70:4D:7B',	'Juniper Networks'),
+('70:5A:0F',	'Hewlett Packard Enterprise'),
+('70:EE:50',	'Netgear'),
+('74:83:C2',	'HP Inc.'),
+('787264',	'ASUSTOR INC.'),
+('7C:D1:C3',	'Apple, Inc.'),
+('80:2A:A8',	'Ubiquiti Networks Inc.'),
+('80:E6:50',	'Apple, Inc.'),
+('84:D4:7E',	'Samsung Electronics Co.,Ltd'),
+('8C:85:90',	'Apple, Inc.'),
+('8C:F5:A3',	'Xiaomi Communications Co., Ltd'),
+('98254A',	'TP-LINK SYSTEMS INC'),
+('A0:36:9F',	'Intel Corporate'),
+('A4:77:33',	'Google, Inc.'),
+('A4:91:B1',	'Apple, Inc.'),
+('A842A1',	'TP-LINK SYSTEMS INC'),
+('AC:22:05',	'Amazon Technologies Inc.'),
+('ACD618',	'ONEPLUS TECHNOLOGY (SHENZHEN) CO., LTD'),
+('B0:BE:76',	'TP-Link Corporation Limited'),
+('B4:FB:E4',	'Amazon Technologies Inc.'),
+('B4B024',	'TP-LINK SYSTEMS INC'),
+('BC:8C:CD',	'Apple, Inc.'),
+('C4:2C:03',	'Samsung Electronics Co.,Ltd'),
+('C87F54',	'ASUSTEK COMPUTER INC.'),
+('D0:03:4B',	'Apple, Inc.'),
+('D4:81:D7',	'Ubiquiti Networks Inc.'),
+('D8:0D:17',	'Dell Inc.'),
+('DC:A6:32',	'Raspberry Pi Foundation'),
+('DCFB48',	'INTEL CORPORATE'),
+('E45F01',	'RASPBERRY PI TRADING LTD'),
+('E4:5F:01',	'Raspberry Pi Foundation'),
+('E4FAC4',	'TP-LINK SYSTEMS INC'),
+('F4:F2:6D',	'TP-Link Corporation Limited');
 
 DROP TABLE IF EXISTS `network_performance_summary`;
 CREATE TABLE `network_performance_summary` (
@@ -493,8 +617,7 @@ CREATE TABLE `network_services` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   CONSTRAINT `network_services_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `network_assets` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `network_speed_log`;
 CREATE TABLE `network_speed_log` (
@@ -520,7 +643,7 @@ CREATE TABLE `network_traces` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`target_id`),
   KEY `idx_target_source` (`target_id`,`source_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_wake_log`;
@@ -578,7 +701,7 @@ CREATE TABLE `portal_folders` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   CONSTRAINT `portal_folders_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `portal_folders` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `portal_notes`;
@@ -600,7 +723,7 @@ CREATE TABLE `portal_notes` (
   KEY `idx_note_targets` (`target_type`,`target_id`),
   FULLTEXT KEY `ft_search` (`title`,`content`),
   CONSTRAINT `portal_notes_ibfk_1` FOREIGN KEY (`folder_id`) REFERENCES `portal_folders` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS `portal_notes_history`;
@@ -633,7 +756,7 @@ CREATE TABLE `portal_tags` (
   `color_code` varchar(7) DEFAULT '#3498db',
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag_name` (`tag_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `sec_settings`;
@@ -707,6 +830,8 @@ CREATE TABLE `sec_users` (
   PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `sec_users` (`login`, `pswd`, `name`, `email`, `active`, `activation_code`, `priv_admin`, `mfa`, `picture`, `role`, `phone`, `pswd_last_updated`, `mfa_last_updated`) VALUES
+('admin_access',	'490776320cbab6e6f83e71b22868382e7340db4c7a9f990683de3103a893dbfbea08cc9370fb6ac6e10893af03aacbaf5c701904c97c085ccac46ba1103b454c',	'Jamie Oates',	'jamie@jamieoates.com',	'Y',	'd09dcfdb8a0f8ed02323ea8166ca68cc',	'Y',	NULL,	NULL,	NULL,	NULL,	'2026-03-15 22:54:22',	NULL);
 
 DROP TABLE IF EXISTS `service_document_links`;
 CREATE TABLE `service_document_links` (
@@ -732,3 +857,5 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_slow_assets` AS selec
 
 DROP TABLE IF EXISTS `view_slow_assets_dynamic`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_slow_assets_dynamic` AS select `a`.`id` AS `id`,`a`.`asset_name` AS `asset_name`,`a`.`ip_address` AS `ip_address`,`l`.`latency` AS `latency`,`l`.`check_time` AS `check_time`,`o`.`latency_threshold_ms` AS `latency_threshold_ms` from ((`network_assets` `a` join `network_log` `l` on((`a`.`id` = `l`.`asset_id`))) join `network_options` `o` on((`o`.`id` = 1))) where ((`l`.`latency` > `o`.`latency_threshold_ms`) and (`l`.`check_time` >= (now() - interval 24 hour)));
+
+-- 2026-03-27 21:07:58 UTC
