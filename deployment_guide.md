@@ -53,8 +53,9 @@ Since Uniform Server does not utilize native Linux Crontab, use **Windows Task S
 
 | Task Name | Action | Trigger |
 | :--- | :--- | :--- |
-| **LanMan_Discovery** | `python.exe C:\UniServerZ\scripts\lanmap.py` | Repeat every 5 Minutes |
-| **LanMan_Cleanup** | `python.exe C:\UniServerZ\scripts\lanmap_clean.py` | Repeat every 1 Hour |
+| **LanMan_Automation** | `php.exe C:\UniServerZ\www\cron_orchestator/index.php` | Repeat every 5-30 Minutes |
+or
+| **LanMan_Automation** | Python 3.11 | `C:\UniServerZ\scripts\lanmap_orchestator.py` | Every 5-30 Minutes |
 
 **Pro Tip:** Ensure "Run with highest privileges" is checked in the task settings to allow the Python engine access to raw network sockets for ARP scanning.
 
