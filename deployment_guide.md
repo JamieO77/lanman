@@ -4,13 +4,16 @@ This guide outlines the rapid deployment of **LanMan V.3** on a Windows-based ar
 
 ---
 
+
+### LOCAL HOSTING - UNISERVER/WAMP/OTHER
+
 ### 1. Core Prerequisites & Download
 Before initiating the deployment, ensure you have the following components:
 
 * **Uniform Server (UniServerZ):** [Download Latest UniServerZ](https://www.uniformserver.com/) (Select Zero-Install PHP 8.2 compatible version).
 * **LanMan Project Archive:** [Download .zip](https://www.dropbox.com/scl/fi/0kos3rqqjn4odr4b5qm5r/LanMan_v3_5_20260326142601000000.zip?rlkey=vy6jes5y12gq4fqmtn3exylzi&st=f77m3wks&dl=0)
 * **Python 3.11+:** Must be installed on the host Windows machine to execute the background discovery daemons.
-
+* **NMAP [Download NMAP](https://nmap.org/download#windows)
 ---
 
 ### 2. File System Initialization
@@ -32,7 +35,14 @@ Before initiating the deployment, ensure you have the following components:
 ---
 
 ### 4. Background Daemon Configuration (Python)
-The discovery engine requires the Python scripts to be linked to your local environment.
+The discovery engine requires the Python scripts to be linked to your local environment or use the CRON jobs (see No5 and portal help files), DO NOT USE THEM BOTH!
+
+For Python scripts install: 
+```cmd
+sudo apt update && sudo apt install -y nmap python3 python3-pip python3-venv php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-xml php8.2-mbstring arp-scan iputils-ping
+```
+
+Download Python scripts:
 1.  Copy `lanmap.py` and `lanmap_clean.py` to a dedicated scripts folder (e.g., `C:\UniServerZ\scripts\`).
 2.  Open `lanmap.py` in an editor and update the database connection string:
     ```python
