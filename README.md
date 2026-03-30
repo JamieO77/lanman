@@ -285,7 +285,7 @@ Regardless of the hosting choice, ensure the following hardware conditions are m
 * **Or Download if from here and replace:  [Open Index Page Replacement ](./index.php)
 
 ### LanMan Project....
-* **FULL PROJECT:** [Download Deployment](https://www.dropbox.com/scl/fi/o2ucxt8t3qc424xsvbj9b/LanMan_v3.zip?rlkey=lhnniav8297e7xljs03xjjnsj&st=wbr9ycy5&dl=0)
+* **FULL PROJECT:** [Download Deployment](https://www.dropbox.com/scl/fi/yv45oxubph9xj7nt1olox/LanMan_v3.zip?rlkey=ltx3memofmkq0uq1k3zs2ynzs&st=6t8mmsmi&dl=0)
 
 * Username: admin_access
 * Password: admin_access
