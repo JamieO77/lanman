@@ -92,6 +92,19 @@ CREATE TABLE `chat_prompts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
+INSERT INTO `chat_prompts` (`id`, `chat_id`, `category`, `title`, `prompt_text`, `icon`) VALUES
+(1,	NULL,	'sql',	'OPTIMIZE QUERY',	'Analyze this MySQL query for performance bottlenecks and suggest missing indexes:',	'fa-database'),
+(2,	NULL,	'php',	'SECURE API',	'Review this PHP function for SQL injection and XSS vulnerabilities:',	'fa-shield-halved'),
+(3,	NULL,	'linux',	'SERVICE RECOVERY',	'My systemd service is failing on restart. Analyze these journalctl logs:',	'fa-server'),
+(4,	NULL,	'sql',	'TABLE DESIGN',	'Convert this raw data requirement into a normalized 3NF table schema using lowercase and underscores:',	'fa-table-cells'),
+(5,	NULL,	'sql',	'DB ANALYZER',	'Analyze this query plan for slow joins:',	'fa-database'),
+(6,	NULL,	'php',	'REFACTOR FUNC',	'Rewrite this PHP function for better performance:',	'fa-code'),
+(7,	NULL,	'linux',	'LOG CHECK',	'Examine these logs for kernel panics:',	'fa-terminal'),
+(8,	NULL,	'php',	'API INTEGRATION',	'Create a PHP Guzzle client wrapper to consume a REST API with Bearer token auth and error handling:',	'fa-gears'),
+(9,	NULL,	'sql',	'MIGRATION SCRIPT',	'Generate a safe MySQL migration script to rename a column and change its type without data loss:',	'fa-arrow-right-arrow-left'),
+(10,	NULL,	'linux',	'NPM/APACHE VHOST',	'Generate a secure Apache VirtualHost config for a PHP 8.1 site with SSL and directory hardening:',	'fa-network-wired'),
+(11,	NULL,	'php',	'SCRIPTCASE HOOK',	'Write a clean ScriptCase onAfterInsert code block to sync this record to an external MariaDB instance:',	'fa-link'),
+(12,	NULL,	'sql',	'DEADLOCK HUNTER',	'Analyze these InnoDB status logs to find the cause of the transaction deadlock:',	'fa-bug-slash');
 
 DROP TABLE IF EXISTS `chat_settings`;
 CREATE TABLE `chat_settings` (
@@ -108,9 +121,6 @@ CREATE TABLE `chat_settings` (
   CONSTRAINT `fk_chat_settings` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-SET NAMES utf8mb4;
-
 DROP TABLE IF EXISTS `monitor_logs`;
 CREATE TABLE `monitor_logs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -125,7 +135,7 @@ CREATE TABLE `monitor_logs` (
   PRIMARY KEY (`id`),
   KEY `fk_node_log` (`node_id`),
   CONSTRAINT `fk_node_log` FOREIGN KEY (`node_id`) REFERENCES `monitor_nodes` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `monitor_nodes`;
@@ -155,7 +165,7 @@ CREATE TABLE `monitor_nodes` (
   `is_active` tinyint(1) DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `network_ai_cache`;
 CREATE TABLE `network_ai_cache` (
@@ -179,7 +189,7 @@ CREATE TABLE `network_alerts` (
   `sent_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `is_notified` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_assets`;
@@ -244,7 +254,7 @@ CREATE TABLE `network_assets` (
   `network_scan_on` tinyint(1) DEFAULT '1',
   `monitor_on` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `network_classification_rules`;
 CREATE TABLE `network_classification_rules` (
@@ -256,6 +266,51 @@ CREATE TABLE `network_classification_rules` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `network_classification_rules` (`id`, `regex_pattern`, `check_target`, `asset_type`, `is_active`) VALUES
+(1,	'CISCO|UBIQUITI|MIKROTIK|TP-LINK|NETGEAR|ARUBA|JUNIPER|FORTINET|RUCKUS|PALO ALTO|SOPHOS|WATCHGUARD|D-LINK|ZYXEL|SONICWALL|BROCADE',	'vendor',	'network_device',	1),
+(2,	'SYNOLOGY|QNAP|DELL|HP|HPE|IBM|SUPERMICRO|VMWARE|PROXMOX|NUTANIX|IXSYSTEMS|INSPUR',	'vendor',	'server',	1),
+(3,	'HIKVISION|AXIS|DAHUA|AMCREST|REOLINK|UNIFI VIDEO|LOREX|WYZE|SWANN|VIVOTEK|BOSCH|HANWHA|PANASONIC',	'vendor',	'camera',	1),
+(4,	'APPLE|INTEL|MICROSOFT|LENOVO|ASUS|ACER|MSI|GIGABYTE|ASROCK|FUJITSU|TOSHIBA|RAZER',	'vendor',	'workstation',	1),
+(5,	'SAMSUNG|MOTOROLA|XIAOMI|ONEPLUS|VIVO|OPPO|HUAWEI|NOKIA|HTC',	'vendor',	'mobile',	1),
+(6,	'EPSON|BROTHER|CANON|LEXMARK|XEROX|RICOH|KYOCERA|KONICA MINOLTA|ZEBRA|DYMO',	'vendor',	'printer',	1),
+(7,	'AMAZON|GOOGLE|SONOFF|TUYA|PHILIPS|BELKIN|NEST|RING|ROKU|SHELLY|AQARA|LUTRON|LG|VIZIO|TCL|GARMIN|RASPBERRY',	'vendor',	'iot',	1),
+(8,	'GRANDSTREAM|POLYCOM|YEALINK|SNOM|AVAYA|MITEL|OBIHAI',	'vendor',	'voip',	1),
+(9,	'IPHONE|ANDROID|GALAXY|PIXEL|IPAD|TAB-|TABLET',	'hostname',	'mobile',	1),
+(10,	'SERVER|NAS-|SQL|PROXMOX|ESXI|DC0|DC1|EXCH|WEB-|DB-|VDI-|TRUENAS|UNRAID|DOCKER|PVE',	'hostname',	'server',	1),
+(11,	'DESKTOP|LAPTOP|PC-|WORKSTATION|MACBOOK|LTP-|NB-|NOTEBOOK|MINIPC|NUC-',	'hostname',	'workstation',	1),
+(12,	'PRINTER|PRINT|MFP-|PRN-|LABEL-|ZEBRA',	'hostname',	'printer',	1),
+(13,	'SWITCH|ROUTER|GATEWAY|AP-|WIFI|FIREWALL|FW-|GW-|VLAN|WLC|CORE-|EDGE-|VPN',	'hostname',	'network_device',	1),
+(14,	'CAM-|NVR|DVR|CCTV|IPC-',	'hostname',	'camera',	1),
+(15,	'TV-|SMARTTV|APPLE-TV|CHROMECAST|ROKU|SPEAKER|HUE',	'hostname',	'iot',	1),
+(16,	'PHONE|SIP-|VOIP|EXT-',	'hostname',	'voip',	1),
+(17,	'SONOS|BOSE|YAMAHA|DENON|PIONEER|SENNHEISER|SHURE|CRESTRON|EXTRON|POLYCOM|LOGITECH',	'vendor',	'av_equipment',	1),
+(18,	'NINTENDO|SONY INTERACTIVE|MICROSOFT XBOX|VALVE',	'vendor',	'gaming_console',	1),
+(19,	'SIEMENS|SCHNEIDER|ALLEN-BRADLEY|ROCKWELL|PHOENIX CONTACT|ABB|OMRON|BECKHOFF',	'vendor',	'ics_device',	1),
+(20,	'GE MEDICAL|PHILIPS MEDICAL|DRAGER|MINDRAY|WELCH ALLYN|BAXTER',	'vendor',	'medical_device',	1),
+(21,	'APC|EATON|CYBERPOWER|TRIPP LITE|VERTIV|SCHNEIDER ELECTRIC',	'vendor',	'power_infrastructure',	1),
+(22,	'HONEYWELL|JOHNSON CONTROLS|TRANE|CARRIER|SIEMENS',	'vendor',	'building_management',	1),
+(23,	'F5 NETWORKS|IMPERVA|CLOUDFLARE|ZSCALER|BARRACUDA|CHECK POINT|TRELIX|FIREEYE',	'vendor',	'security_appliance',	1),
+(24,	'VERIFONE|INGENICO|SQUARE|NCR|TOSHIBA TEC',	'vendor',	'pos_terminal',	1),
+(25,	'PROJECTOR|DISPLAY-|ROOM-|ZOOMROOM|TEAMS-|WEBEX|CRESTRON|AMP-',	'hostname',	'av_equipment',	1),
+(26,	'DOCKER-|K8S-|NODE-|POD-|VM-|HYPERV|WSL|KUBERNETES|RANCHER',	'hostname',	'virtual_machine',	1),
+(27,	'UPS-|PDU-|BATT-|POWER-|INVERTER',	'hostname',	'power_infrastructure',	1),
+(28,	'LB-|WAF-|PROXY|FW-|VPN-|DMZ-|IDS-|IPS-|AUTH-|RADIUS',	'hostname',	'security_appliance',	1),
+(29,	'XBOX|PLAYSTATION|PS4|PS5|NINTENDO|SWITCH|STEAMDECK',	'hostname',	'gaming_console',	1),
+(30,	'POS-|REGISTER|KIOSK|TILL-',	'hostname',	'pos_terminal',	1),
+(31,	'PLC-|SCADA|HMI-|HVAC|CHILLER|BOILER|SENSOR-|METER-',	'hostname',	'ics_device',	1),
+(32,	'BACKUP|VEEAM|DATTO|ISCSI|SAN-|TAPE-',	'hostname',	'storage_appliance',	1),
+(33,	'RASPBERRY PI|ARDUINO|ESPRESSIF|BEAGLEBOARD|PINE64|ODROID|PRUSA|CREALITY',	'vendor',	'dev_board',	1),
+(34,	'HID GLOBAL|ASSA ABLOY|SUPREMA|DOORKING|BOSCH SECURITY|ENVIROMUX|AKCP|KABA',	'vendor',	'access_control',	1),
+(35,	'PEPLINK|CRADLEPOINT|VELOCLOUD|SILVER PEAK|TELTONIKA|SIERRA WIRELESS|ZADARA',	'vendor',	'edge_router',	1),
+(36,	'SIGNIFY|PHILIPS LIGHTING|LIFX|SENGLED|NANOLEAF|GOVEE|LUTRON|CREE',	'vendor',	'smart_lighting',	1),
+(37,	'SONOS|SENNHEISER|HARMAN|JBL|BOWERS|KLIPSCH',	'vendor',	'smart_audio',	1),
+(38,	'NETAPP|PURE STORAGE|NIMBLE|COMPELLENT|EMC|HITACHI|WESTERN DIGITAL|SEAGATE',	'vendor',	'storage_array',	1),
+(39,	'RASPBERRYPI|OCTOPRINT|KLIPPER|MAINSAIL|FLUIDD|ESP32|ESP8266|ARDUINO',	'hostname',	'dev_board',	1),
+(40,	'DOOR-|READER-|BADGE-|GATE-|TURNSTILE|BIOMETRIC|RFID-',	'hostname',	'access_control',	1),
+(41,	'SDWAN|EDGE-|CELL-|LTE-|5G-|MODEM-|WWAN',	'hostname',	'edge_router',	1),
+(42,	'HUE-|LIGHT-|BULB-|LAMP-|LED-|STRIP-',	'hostname',	'smart_lighting',	1),
+(43,	'SAN-|NAS-|ISCSI|LUN-|VOLUME-|ARRAY-|NETAPP',	'hostname',	'storage_array',	1),
+(44,	'ALEXA|ECHO-|HOMEPOD|NESTHUB|CHROMECAST|AIRPLAY|CAST-',	'hostname',	'smart_audio',	1);
 
 DROP TABLE IF EXISTS `network_connections`;
 CREATE TABLE `network_connections` (
@@ -280,6 +335,7 @@ CREATE TABLE `network_discovery` (
   `hostname` varchar(255) DEFAULT NULL,
   `mac_address` varchar(100) DEFAULT NULL,
   `vendor` varchar(255) DEFAULT NULL,
+  `asset_type` varchar(255) DEFAULT NULL,
   `first_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_seen` datetime DEFAULT NULL,
   `is_ignored` tinyint(1) DEFAULT '0',
@@ -292,8 +348,9 @@ CREATE TABLE `network_discovery` (
   `asset_trace` int(1) DEFAULT '0',
   `enriched` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ip_address` (`ip_address`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `ip_address` (`ip_address`),
+  KEY `idx_network_discovery_ip` (`ip_address`)
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `network_error_log`;
@@ -332,7 +389,7 @@ CREATE TABLE `network_log` (
   PRIMARY KEY (`id`),
   KEY `ip_address` (`ip_address`),
   KEY `asset_id` (`asset_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `network_logins`;
@@ -457,7 +514,7 @@ CREATE TABLE `network_options` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `network_options` (`id`, `enable_search_bar`, `enable_telegram`, `enable_email`, `enable_discovery`, `enable_monitoring`, `discovery_keep_duration`, `enable_enhance`, `enhance_repeat_min`, `enable_connections`, `enable_clean`, `clean_days`, `ping_rate_seconds`, `latency_threshold_ms`, `telegram_token`, `telegram_chat_id`, `email_address`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `smtp_secure`, `enable_snmp`, `default_snmp_community`, `host_os`, `alarm_email_count`, `alarm_telegram_count`, `alarm_email_notice`, `alarm_telegram_notice`, `connection_timeout`, `discovery_parallel`, `discovery_max_threads`, `discovery_timeout_min`, `discovery_auto_throttle`, `check_load`, `max_load_threshold`, `enable_slack`, `slack_webhook_url`, `email_notify_failure`, `email_notify_lost`, `email_notify_new`, `email_notify_latency`, `tg_notify_failure`, `tg_notify_lost`, `tg_notify_new`, `tg_notify_latency`, `slack_notify_failure`, `slack_notify_lost`, `slack_notify_new`, `slack_notify_latency`, `alarm_cpu`, `alarm_ram`, `alarm_disk`, `ping_target`, `show_latency`, `show_favs`, `show_speed_gauge`, `db_name`, `display_bottlneck`, `display_availability`, `display_slow_assets`, `display_vendor_mix`, `display_distro`, `root_path`, `enable_robo_llm`, `api_key_openai`, `api_key_gemini`, `url_ollama`, `ollama_default_model`, `enable_ai_overview`, `enable_pdf_report`, `llm_default_provider`, `pdf_template_style`, `enable_ai_log_clean`, `robo_alert`, `robo_alert_sound`, `robo_alert_filename`, `robo_alert_size`, `nmap_path`, `scan_range`, `scan_monitor_time`, `scan_speed_time`, `last_run_main`, `last_run_tools`, `last_run_clean`, `scan_main_time`) VALUES
-(1,	1,	0,	0,	1,	1,	14,	1,	30,	0,	1,	14,	300,	100,	'',	'',	'',	'',	587,	'',	'',	'tls',	1,	'public',	'windows',	3,	3,	1,	1,	5,	0,	10,	3,	1,	1,	80,	0,	'',	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	70,	80,	90,	'8.8.8.8',	1,	1,	1,	'lanman',	1,	1,	1,	1,	1,	'../',	0,	'',	'AIzaSyAmWrwv5iEaQYGoLfhswheZi-mrKbtGVKM',	'http://192.168.1.11:11434',	'gemma3:4b',	1,	1,	'gemini',	'modern_dark',	1,	1,	NULL,	NULL,	NULL,	'C:\\Program Files (x86)\\Nmapmap.exe',	'192.168.1.0/24',	5,	30,	'2026-03-27 16:57:52',	'2026-03-27 18:24:41',	'2026-03-27 00:19:09',	1);
+(1,	1,	0,	0,	1,	1,	14,	1,	30,	0,	1,	14,	4,	45,	'',	'',	'',	'',	587,	'',	'',	'tls',	1,	'public',	'windows',	3,	3,	1,	1,	5,	1,	20,	4,	1,	1,	80,	0,	'',	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	70,	80,	90,	'8.8.8.8',	1,	1,	1,	'lanman',	1,	1,	1,	1,	1,	'../',	0,	'',	'AIzaSyAmWrwv5iEaQYGoLfhswheZi-mrKbtGVKM',	'http://192.168.1.11:11434',	'gemma3:4b',	1,	1,	'gemini',	'modern_dark',	1,	1,	NULL,	NULL,	NULL,	'C:/Program Files (x86)/Nmap/nmap.exe',	'192.168.1.0/24',	5,	30,	'2026-03-27 16:57:52',	'2026-03-30 18:37:45',	'2026-03-27 00:19:09',	1);
 
 DROP TABLE IF EXISTS `network_oui_lookup`;
 CREATE TABLE `network_oui_lookup` (
@@ -617,7 +674,8 @@ CREATE TABLE `network_services` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   CONSTRAINT `network_services_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `network_assets` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 DROP TABLE IF EXISTS `network_speed_log`;
 CREATE TABLE `network_speed_log` (
@@ -674,17 +732,6 @@ CREATE TABLE `note_document_links` (
   CONSTRAINT `note_doc_fk_doc` FOREIGN KEY (`document_id`) REFERENCES `asset_documents` (`id`) ON DELETE CASCADE,
   CONSTRAINT `note_doc_fk_note` FOREIGN KEY (`note_id`) REFERENCES `portal_notes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-DROP TABLE IF EXISTS `ping_pong_scores`;
-CREATE TABLE `ping_pong_scores` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `player_name` varchar(50) NOT NULL,
-  `player_score` int(11) NOT NULL,
-  `computer_score` int(11) NOT NULL,
-  `played_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `portal_folders`;
@@ -758,6 +805,12 @@ CREATE TABLE `portal_tags` (
   UNIQUE KEY `tag_name` (`tag_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `portal_tags` (`id`, `tag_name`, `color_code`) VALUES
+(1,	'security',	'#ef4444'),
+(2,	'database',	'#06b6d4'),
+(3,	'hardware',	'#f97316'),
+(4,	'documentation',	'#8b5cf6'),
+(5,	'emergency',	'#b91c1c');
 
 DROP TABLE IF EXISTS `sec_settings`;
 CREATE TABLE `sec_settings` (
@@ -858,4 +911,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_slow_assets` AS selec
 DROP TABLE IF EXISTS `view_slow_assets_dynamic`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_slow_assets_dynamic` AS select `a`.`id` AS `id`,`a`.`asset_name` AS `asset_name`,`a`.`ip_address` AS `ip_address`,`l`.`latency` AS `latency`,`l`.`check_time` AS `check_time`,`o`.`latency_threshold_ms` AS `latency_threshold_ms` from ((`network_assets` `a` join `network_log` `l` on((`a`.`id` = `l`.`asset_id`))) join `network_options` `o` on((`o`.`id` = 1))) where ((`l`.`latency` > `o`.`latency_threshold_ms`) and (`l`.`check_time` >= (now() - interval 24 hour)));
 
--- 2026-03-27 21:07:58 UTC
+-- 2026-03-30 19:08:54 UTC
