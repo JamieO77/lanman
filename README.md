@@ -89,8 +89,6 @@ This module delivers granular, real-time analytics of network performance, devic
 
 
 ###  Network Discovery Tool
-<img width="1243" height="685" alt="image" src="https://github.com/user-attachments/assets/3cd5dba6-5b74-492e-83fe-063a7c014bf4" />
-
 
 
 ### 🗄️ Log Matrix & Historical Telemetry
