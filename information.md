@@ -53,7 +53,7 @@ Discovered nodes are processed through a regex-based classification engine to de
 ## 5. Environment Setup
 
 ### Windows Requirements
-* **Nmap:** Must be installed and reachable.
+* **Nmap:** Must be installed(https://nmap.org/download#windows) and reachable.
 * **Permissions:** The Web Server user (`IUSR` or `NetworkService`) must have "Read & Execute" permissions on the Nmap directory.
 * **Path:** Configured in `network_options` (e.g., `C:\Program Files (x86)\Nmap\nmap.exe`).
 
