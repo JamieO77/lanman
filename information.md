@@ -1,4 +1,6 @@
-# 🛰️ Network_Discovery v2.0 | System Documentation
+# 🛰️ Network_Discovery | System Documentation
+
+## DEVELOPED on WINDOWS, RUNNING on LINUX - Works on Both!
 
 ## 1. System Overview
 The **Network_Discovery** portal is a high-performance, multi-threaded asset management and reconnaissance suite. It is designed to map local area networks (LANs), identify host telemetry, and promote discovered nodes into a managed asset database.
@@ -9,6 +11,9 @@ The **Network_Discovery** portal is a high-performance, multi-threaded asset man
 * **Engine:** Nmap (Unprivileged Mode) + PHP Native Sockets
 * **Frontend:** Tailwind CSS 4, D3.js (Topology), Chart.js (Telemetry)
 
+
+### Deployment
+* ** Deploy Lanmnan on a Laptop, install Apache, Php8.2 (plus prereqesists)Mysql Database, or uniserver [Download UniServer](https://sourceforge.net/projects/miniserver/files/Uniform%20Server/3.0/), setup database, setup requirements, copy LANMAN zip into www folder, unzip, setup portal, adjust your network settings, and start scanning!
 ---
 
 ## 2. Scanning Methodologies
