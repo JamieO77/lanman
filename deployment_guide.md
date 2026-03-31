@@ -66,9 +66,9 @@ Since Uniform Server does not utilize native Linux Crontab, use **Windows Task S
 | Task Name | Action | Trigger |
 | :--- | :--- | :--- |
 | **LanMan_CRON_Standard_Sweep** | `php.exe C:\UniServerZ\www\cron_sweep/index.php` | Repeat every 5-60 Minutes |
-| **LanMan_CRON_Full_Sweep+Ports** | `php.exe C:\UniServerZ\www\cron_sweep_full/index.php` | Repeat every 5-60 Minutes |
-| **LanMan_CRON_Notifications** | `php.exe C:\UniServerZ\www\cron_notifications/index.php` | Repeat every 5-60 Minutes |
-| **LanMan_CRON_clean** | `php.exe C:\UniServerZ\www\cron_clean/index.php` | Repeat every 5-60 Minutes |
+| **LanMan_CRON_Full_Sweep+Ports** | `php.exe C:\UniServerZ\www\cron_sweep_full/index.php` | Repeat every 12-24 Hours (give 5-10min space between standard sweep) |
+| **LanMan_CRON_Notifications** | `php.exe C:\UniServerZ\www\cron_notifications/index.php` | Repeat every 30 Minutes Depending on sweep times |
+| **LanMan_CRON_clean** | `php.exe C:\UniServerZ\www\cron_clean/index.php` | Repeat every 24 Hour |
 or
 | **LanMan_PYTHON_Automation** | Python 3.11 | `C:\UniServerZ\scripts\lanmap_orchestator.py` | Every 5-60 Minutes |
 
