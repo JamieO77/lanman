@@ -88,6 +88,11 @@ This module delivers granular, real-time analytics of network performance, devic
 * **Targeted Hardware Probing:** Isolated latency trackers for critical infrastructure components, such as the primary gateway and core switches, alongside a custom IP targeting tool for ad-hoc node diagnostics.
 
 
+###  Network Discovery Tool
+<img width="1243" height="685" alt="image" src="https://github.com/user-attachments/assets/3cd5dba6-5b74-492e-83fe-063a7c014bf4" />
+
+
+
 ### 🗄️ Log Matrix & Historical Telemetry
 <img width="1802" height="1041" alt="image" src="https://github.com/user-attachments/assets/79d6508f-93cc-4732-a80a-fc29a4cce2fc" />
 
