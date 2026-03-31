@@ -32,10 +32,10 @@ The backend engine requires raw network socket access to transmit ARP and ICMP p
 
 #### Prerequisites (All OS)
 1.  Install Python 3.11 or higher.
-2.  Install required libraries: `pip install mysql-connector-python scapy python-nmap`.
+2.  Install required libraries: `pip install mysql-connector-python scapy python-nmap speedtest-cli`.
 
 #### Linux Execution
-1.  **Install System Dependencies:** Execute `sudo apt-get update && sudo apt-get install nmap libpcap-dev`.
+1.  **Install System Dependencies:** Execute `sudo apt-get update && sudo apt-get install nmap libpcap-dev speedtest-cli`.
 2.  **Configure Execution Permissions:** `chmod +x scan.py cleanup.py`.
 3.  **Schedule via Cron:** Open the root crontab (`sudo crontab -e`). Scapy requires `root` privileges to craft raw packets.
 4.  **Append Schedules:** Add the following lines to run the scan hourly and the cleanup daily at midnight:
