@@ -39,7 +39,7 @@ The discovery engine requires the Python scripts to be linked to your local envi
 
 For Python scripts install: 
 ```cmd
-sudo apt update && sudo apt install -y nmap python3 python3-pip python3-venv php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-xml php8.2-mbstring arp-scan iputils-ping
+sudo apt update && sudo apt install -y nmap python3 python3-pip python3-venv php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-xml php8.2-mbstring arp-scan iputils-ping speedtest-cli
 ```
 
 Download Python scripts:
