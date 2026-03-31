@@ -58,9 +58,11 @@ Scroll to the very bottom of the file and paste these two exact lines. (Again, e
 
 # Run the scanner every 1 minute
 * * * * * /home/username/lanman_worker/venv/bin/python /home/username/lanman_worker/lanman.py >> /home/username/lanman_worker/scanner.log 2>&1
+## Works for me: cd /var/www/html_lanman/cron_sweep && /usr/bin/php index.php
 
 # Run the cleanup at 2:00 AM every day
 0 2 * * * /home/username/lanman_worker/venv/bin/python /home/username/lanman_worker/lanman_clean.py >> /home/username/lanman_worker/clean.log 2>&1
+## Works for me: cd /var/www/html_lanman/cron_clean && /usr/bin/php index.php
 
 Save and exit. Your dedicated worker node is now fully operational and will immediately begin syncing data to your LanMan portal.
 
