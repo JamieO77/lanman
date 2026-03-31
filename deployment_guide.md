@@ -14,6 +14,7 @@ Before initiating the deployment, ensure you have the following components:
 * **LanMan Project Archive:** [Download .zip](https://www.dropbox.com/scl/fi/qvszzt0huqrzok46k13pw/LanMan_v3.zip?rlkey=wy302249z4jugspmpuyr0ov82&st=6xtw3qye&dl=0)
 * **Python 3.11+:** Must be installed on the host Windows machine to execute the background discovery daemons.
 * **NMAP [Download NMAP](https://nmap.org/download#windows)
+* **Speedtest-cli installed [Download Speedtest](https://www.speedtest.net/apps/cli)
 ---
 
 ### 2. File System Initialization
