@@ -11,7 +11,7 @@ This guide outlines the rapid deployment of **LanMan V.3** on a Windows-based ar
 Before initiating the deployment, ensure you have the following components:
 
 * **Uniform Server (UniServerZ):** [Download Latest UniServerZ](https://www.uniformserver.com/) (Select Zero-Install PHP 8.2 compatible version).
-* **LanMan Project Archive:** [Download .zip](https://www.dropbox.com/scl/fi/4otx6x06w3110lutl1oq4/LanMan_v3.zip?rlkey=sob0kyeiyybpuopr1ytxqtmx8&st=3nbiu6fu&dl=0)
+* **LanMan Project Archive:** [Download .zip](https://www.dropbox.com/scl/fi/7min824z7fsyhjy4mp3bc/LanMan_v3.zip?rlkey=f8pj5erfbcpoljwb7mur7lhrj&st=xy3r9paw&dl=0)
 * **Python 3.11+:** Must be installed on the host Windows machine to execute the background discovery daemons OR use the cron apps, or use the inbuilt apps.... the choice is yours, just dont flood your network!
 * **NMAP [Download NMAP](https://nmap.org/download#windows)
 * **Speedtest-cli installed [Download Speedtest](https://www.speedtest.net/apps/cli)
