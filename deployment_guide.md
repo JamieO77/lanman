@@ -7,26 +7,26 @@ This guide outlines the rapid deployment of **LanMan V.3** on a Windows-based ar
 
 ### LOCAL HOSTING - UNISERVER/WAMP/OTHER
 
-### 1. Core Prerequisites & Download
+### 1. Prerequisites & Download
 Before initiating the deployment, ensure you have the following components:
 
 * **Uniform Server (UniServerZ):** [Download Latest UniServerZ](https://www.uniformserver.com/) (Select Zero-Install PHP 8.2 compatible version).
 * **LanMan Project Archive:** [Download .zip](https://www.dropbox.com/scl/fi/qvszzt0huqrzok46k13pw/LanMan_v3.zip?rlkey=wy302249z4jugspmpuyr0ov82&st=6xtw3qye&dl=0)
-* **Python 3.11+:** Must be installed on the host Windows machine to execute the background discovery daemons.
+* **Python 3.11+:** Must be installed on the host Windows machine to execute the background discovery daemons OR use the cron apps, or use the inbuilt apps.... the choice is yours, just dont flood your network!
 * **NMAP [Download NMAP](https://nmap.org/download#windows)
 * **Speedtest-cli installed [Download Speedtest](https://www.speedtest.net/apps/cli)
 ---
 
-### 2. File System Initialization
-1.  **Extract UniServerZ:** Decompress the Uniform Server archive to your desired root directory (e.g., `C:\UniServerZ\` or a high-speed USB drive).
+### 2. File System Deployment
+1.  **Extract UniServerZ:** Decompress the Uniform Server archives into your desired root directory (e.g., `C:\UniServerZ\www\` or a high-speed USB drive).
 2.  **Deploy LanMan Source:** * Navigate to the `/www/` directory inside your UniServerZ folder.
     * Create a new folder named `lanman`.
-    * Extract the contents of the **LanMan Project Archive** into `C:\UniServerZ\www\lanman\`.
-3.  **Root Access Check:** Ensure the `index.php` of the dashboard is located at `.../www/lanman/index.php`.
+    * Extract the contents of the **LanMan Project Archive** into `C:\UniServerZ\www\` or  `C:\UniServerZ\www\lanman\`.
+3.  **Root Access Check:** Ensure the `index.php` of the dashboard is located at `.../www/index.php` or `.../www/lanman/index.php`.
 
 ---
 
-### 3. Database Ingestion (MySQL/MariaDB)
+### 3. Database Import (MySQL/MariaDB)
 1.  Launch `UniController.exe` and start both the **Apache** and **MySQL** services.
 2.  Open **phpMyAdmin** (usually at `localhost/phpmyadmin`).
 3.  Create a new database named `lanman_db` using `utf8mb4_general_ci` collation.
@@ -40,7 +40,7 @@ The discovery engine requires the Python scripts to be linked to your local envi
 
 For Python scripts install: 
 ```cmd
-sudo apt update && sudo apt install -y nmap python3 python3-pip python3-venv php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-xml php8.2-mbstring arp-scan iputils-ping speedtest-cli
+sudo apt update && sudo apt install -y nmap python3 python3-pip python3-venv php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-xml php8.2-mbstring arp-scan iputils-ping scapy speedtest-cli
 ```
 
 Download Python scripts:
@@ -55,18 +55,22 @@ Download Python scripts:
     }
     ```
 3.  Install required libraries via Terminal:
-    `pip install scapy mysql-connector-python`
+    `pip install scapy mysql-connector-python nmap` you may need to install speedtest-cli via pip also.
 
 ---
 
 ### 5. Automation Setup (Windows Task Scheduler)
 Since Uniform Server does not utilize native Linux Crontab, use **Windows Task Scheduler** to mimic the Cron Lifecycle:
+*Note: The Network Tool, Cron Orchestrator built into the portal menu will run all cron scripts!
 
 | Task Name | Action | Trigger |
 | :--- | :--- | :--- |
-| **LanMan_Automation** | `php.exe C:\UniServerZ\www\cron_orchestator/index.php` | Repeat every 5-30 Minutes |
+| **LanMan_CRON_Standard_Sweep** | `php.exe C:\UniServerZ\www\cron_sweep/index.php` | Repeat every 5-60 Minutes |
+| **LanMan_CRON_Full_Sweep+Ports** | `php.exe C:\UniServerZ\www\cron_sweep_full/index.php` | Repeat every 5-60 Minutes |
+| **LanMan_CRON_Notifications** | `php.exe C:\UniServerZ\www\cron_notifications/index.php` | Repeat every 5-60 Minutes |
+| **LanMan_CRON_clean** | `php.exe C:\UniServerZ\www\cron_clean/index.php` | Repeat every 5-60 Minutes |
 or
-| **LanMan_Automation** | Python 3.11 | `C:\UniServerZ\scripts\lanmap_orchestator.py` | Every 5-30 Minutes |
+| **LanMan_PYTHON_Automation** | Python 3.11 | `C:\UniServerZ\scripts\lanmap_orchestator.py` | Every 5-60 Minutes |
 
 **Pro Tip:** Ensure "Run with highest privileges" is checked in the task settings to allow the Python engine access to raw network sockets for ARP scanning.
 
