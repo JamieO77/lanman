@@ -56,6 +56,7 @@ Discovered nodes are processed through a regex-based classification engine to de
 * **Nmap:** Must be installed [Download NMAP](https://nmap.org/download#windows) and reachable.
 * **Permissions:** The Web Server user (`IUSR` or `NetworkService`) must have "Read & Execute" permissions on the Nmap directory.
 * **Path:** Configured in `network_options` (e.g., `C:\Program Files (x86)\Nmap\nmap.exe`).
+* ** Speedtest-cli must be installed for speed tests to work, will work without
 
 ### Linux/Ubuntu Requirements
 Install core dependencies via CLI:
