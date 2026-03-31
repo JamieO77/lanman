@@ -20,5 +20,5 @@ Here I will try and catalogue all fixes, additions, and improvements I have made
 
 
 ## Versions
-# CURRENT/LATEST: 3.0 [Download]()
+# CURRENT/LATEST: 3.0 [Download](https://www.dropbox.com/scl/fi/53x8zlihulfutb5c6xvtt/LanMan_v3.zip?rlkey=z6urfqzla37gzngorxa9jd7hq&st=em775xuh&dl=0)
 # LATEST UPDATE: None yet
