@@ -13,7 +13,7 @@ The **Network_Discovery** portal is a high-performance, multi-threaded asset man
 
 
 ### Deployment
-* ** Deploy Lanmnan on a Laptop, install Apache, Php8.2 (plus prereqesists)Mysql Database, or uniserver [Download UniServer](https://sourceforge.net/projects/miniserver/files/Uniform%20Server/3.0/), setup database, setup requirements, copy LANMAN zip into www folder, unzip, setup portal, adjust your network settings, and start scanning!
+* ** Deploy Lanmnan on a Desktop or Laptop for mobile scanning, install Apache, Php8.2 (plus requirements), Mysql Database, or [UniServer](https://www.uniformserver.com/) (don't forget to download the php.82 [addon zip](https://www.uniformserver.com/ZeroXI_documentation/php.html) also), setup database, setup requirements, copy LANMAN zip into www folder, unzip, setup portal, adjust your network settings, and start scanning!
 ---
 
 ## 2. Scanning Methodologies
